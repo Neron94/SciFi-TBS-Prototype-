@@ -7,15 +7,18 @@ public class square_cell_Generator : MonoBehaviour {
     GameObject square_cell;                  // Сам обьект Единица Сетки
     GameObject FieldObject;                  // Обьект на котором будет спавнится сетка
     Vector3 WhereSpawningStarts;           // Точка начала спавна сетки
+    public int[] SquareGridSize = new int[2];
+    Field_Controller _Field_Controller;
     
 
 
     private void Start()
     {
+        _Field_Controller = GetComponentInParent<Field_Controller>();
         FieldObject = GameObject.Find("Field");
         square_cell = GameObject.Find("square_cell");
         WhereSpawningStarts = square_cell.transform.position;
-        GenerateSquareField(10,10);
+        GenerateSquareField(SquareGridSize[0],SquareGridSize[1]);
         
     }
 
@@ -47,6 +50,7 @@ public class square_cell_Generator : MonoBehaviour {
                     square_cell_new.transform.SetParent(FieldObject.transform);
                     square_cell_new.GetComponent<Square_cell_Operator>().SetCoordinate(x_num,y_num);
                     square_cell_new.transform.position = new Vector3(square_cell.transform.position.x + y_num - 1, square_cell.transform.position.y, square_cell.transform.position.z);
+                    _Field_Controller._Field_List().Add(square_cell_new.GetComponent<Square_cell_Operator>());
                 }
                 square_cell.transform.position = new Vector3(square_cell.transform.position.x, square_cell.transform.position.y, square_cell.transform.position.z - 1);
             }
