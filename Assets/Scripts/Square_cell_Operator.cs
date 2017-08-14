@@ -23,6 +23,11 @@ public class Square_cell_Operator : MonoBehaviour {
         square_id[1] = y;
     }
 
+    public int[] GetCoordinates()
+    {
+        return square_id;
+    }
+
     void Set_Around_squares()
     {
        

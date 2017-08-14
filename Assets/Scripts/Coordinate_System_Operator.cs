@@ -5,45 +5,89 @@ using UnityEngine;
 public class Coordinate_System_Operator : MonoBehaviour {
 
 
-    List<Square_cell_Operator> Open_List;
-    List<Square_cell_Operator> Close_List;
+    List<Square_cell_Operator> Open_List = null;
+    List<Square_cell_Operator> Close_List = null;
+    Square_cell_Operator End;
+    Square_cell_Operator Start;
+
+    List<Square_cell_Operator> Path;
 
 
-    public List<Square_cell_Operator> Find_path(Square_cell_Operator start, Square_cell_Operator end)
+    public void Find_path(Square_cell_Operator start, Square_cell_Operator end)
     {
-        if(Close_List.Count == 0)
-        {
-            SquareCheckToOpenList(start);
-        }
-        else
-        {
-            if(Open_List.Count != 0)
-            {
-                SquareCheckToOpenList(SearchInOpen_listNextSquare());
-            }
-        }
-        return null;
-    }
 
+        // Инициализация Основных ТОЧЕК
+        End = end;
+        Start = start;
+        
+        //Если ЗС пуст (то скорее всего это старт системы поиска пути)
+        if (Close_List == null) 
+        {
+            //и стартовым эелементом цикла будет Стартовая точка
+            SquareCheckToOpenList(start); 
+        }
+        else //Если ЗС не пуст то цикл поиска уже в процессе (пошли итерации)
+        {
+            // Проверим не пуст ли ОС (а на этот момент он должен быть уже чем то заполнен)
+            if (Open_List.Count != 0) 
+            {
+                // Основной цикл вычисления окружающих кубов на дальнейшее рассмотрение
+                SquareCheckToOpenList(SearchInOpen_listNextSquare()); 
+            }
+            print("Пути нет * ОС пуст");
+        }
+        
+    } // НАЧАЛО ПОИСКА ПУТИ 
+    
     void SquareCheckToOpenList(Square_cell_Operator CheckSquare)
     {
+        //Перебираем окружающие кубы Текущей точки
         foreach(Square_cell_Operator checkingSquare in CheckSquare.Around_Squares)
         {
-            if (!checkingSquare.barrier)
+            // Проверка нет ли барьера 
+            if (!checkingSquare.barrier) 
             {
-                if (!isCheckInClose_List(CheckSquare))
+                // Проверка нет ли в ЗС
+                if (!isCheckInClose_List(checkingSquare)) 
                 {
-                   
-                }
-                else;   // Proverochniy Square uje v CloseList
+                    //  Если куб в ОС
+                    if (isCheckInOpen_List(checkingSquare)) 
+                    {
+                        // Проверка логичности продолжения пути по этому кубу  НА ТРУ
+                        if (pathIsLogic(CheckSquare, checkingSquare))
+                        {
+                            // меняем у имеющегося куба в ОС его родителя на ТК также его значения FGH
+                            AddSquareToOpenList(CheckSquare, checkingSquare); 
+                        }
+
+                    } //Куб не в ОС (штатная процедура добавления кубов в ОС)
+                    else AddSquareToOpenList(CheckSquare, checkingSquare);
+                }// Куб в ЗС игнорим
+                else;
 
 
-            }
-            else;   //Proverochniy Square imeet barier
+            }// Куб имеет не проходимый барьер игнорим
+            else;   
             
         }
-    }
+        Open_List.Remove(CheckSquare);
+        Close_List.Add(CheckSquare);
+        if(isEndinOpen_List())
+        {
+            Path = Calculate_Path(End); // Цель найдена Пытаюсь проложить путь
+            
+        }
+        Find_path(Start, End); // ПОВТОР ЦИКЛА
+    }  // Проверка окружающих квадратиков нашего ПК
 
+
+
+
+
+
+
+
+    // Не находится ли квадрат в ОС
     bool isCheckInOpen_List(Square_cell_Operator checkingSquare)
     {
         foreach(Square_cell_Operator CheckSq in Open_List)
@@ -54,7 +98,8 @@ public class Coordinate_System_Operator : MonoBehaviour {
             }     
         }
         return false;
-    }
+    }  
+    //Не находится ли квадрат в ЗС
     bool isCheckInClose_List(Square_cell_Operator checkingSquare)
     {
         foreach (Square_cell_Operator CheckSq in Close_List)
@@ -65,23 +110,49 @@ public class Coordinate_System_Operator : MonoBehaviour {
             }
         }
         return false;
-    }
-
-    void Path_finding_cycle(Square_cell_Operator start)
-    {
-
-    }
-
+    } 
+    // Есть ли конечная цель в ОС
     bool isEndinOpen_List()
     {
+        foreach (Square_cell_Operator check in Open_List)
+        {
+            if (check == End)
+            {
+                return true;
+            }
+        }
         return false;
+    }  
+    // Если на пути попался квадратик уже имеющийся в ОС проверяем логично ли на него наступить ************ НЕ МОГУ РАЗОБРАТЬСЯ В УСЛОВИИ
+    bool pathIsLogic(Square_cell_Operator mySquare, Square_cell_Operator checkSquare)
+    {
+        if (checkSquare.A_Value[1] < mySquare.A_Value[1] + checkSquare.A_Value[1]) return false;
+        else return true;
     }
 
+
+
+    //Расчет пути при достижении цели по родителям 
     List<Square_cell_Operator> Calculate_Path(Square_cell_Operator end)
     {
+        Square_cell_Operator step = end;
+        List<Square_cell_Operator> CollectingPathNodes = null;
+        CollectingPathNodes.Add(end);
 
+        while(step.Parent)
+        {
+            CollectingPathNodes.Add(step.Parent);
+            step = step.Parent;
+            if(!step.Parent)
+            {
+                print("Путь готов");
+                break;
+            }
+        }
+        return CollectingPathNodes;
+        
     }
-
+    // Подбор нового шага (квадратика) для его проверки
     Square_cell_Operator SearchInOpen_listNextSquare()
     {
         int best_F = Open_List[0].A_Value[0];
@@ -100,6 +171,35 @@ public class Coordinate_System_Operator : MonoBehaviour {
         }
         return bestChoice;
     }
+    // Добавляем квадратик в ОС даем ему родителя и значения FGH
+    void AddSquareToOpenList(Square_cell_Operator parent, Square_cell_Operator check)  
+    {
+        check.Parent = parent;
+        check.A_Value[2] = Calculate_H(check);
+        check.A_Value[1] = Calculate_G(check, parent);
+        check.A_Value[0] = check.A_Value[1] + check.A_Value[2];
+        if(!isCheckInOpen_List(check)) 
+        {
+            Open_List.Add(check);
+        }
+    }
 
+
+    int Calculate_H(Square_cell_Operator check)
+    {
+        return  10 * Mathf.Abs(check.GetCoordinates()[0] - End.GetCoordinates()[0]) + Mathf.Abs(check.GetCoordinates()[1] - End.GetCoordinates()[1]);
+    } // Вычесляем величину H для куба
+    int Calculate_G(Square_cell_Operator check, Square_cell_Operator parent)
+    {
+        int checkSum = check.GetCoordinates()[0] + check.GetCoordinates()[1];
+        int parentSum = parent.GetCoordinates()[0] + parent.GetCoordinates()[1];
+        
+        if(Mathf.Abs(checkSum - parentSum) == 2 || Mathf.Abs(checkSum - parentSum) == 0)
+        {
+            return 14 + parent.A_Value[1];
+        }
+        return 10 * parent.A_Value[1];
+    } // Вычесляем величину G для куба
+    
     
 }

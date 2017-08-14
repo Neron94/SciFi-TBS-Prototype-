@@ -50,7 +50,8 @@ public class square_cell_Generator : MonoBehaviour {
                     square_cell_new.transform.SetParent(FieldObject.transform);
                     square_cell_new.GetComponent<Square_cell_Operator>().SetCoordinate(x_num,y_num);
                     square_cell_new.transform.position = new Vector3(square_cell.transform.position.x + y_num - 1, square_cell.transform.position.y, square_cell.transform.position.z);
-                    _Field_Controller._Field_List().Add(square_cell_new.GetComponent<Square_cell_Operator>());
+
+                   // _Field_Controller._Field_List().Add(square_cell_new.GetComponent<Square_cell_Operator>());
                 }
                 square_cell.transform.position = new Vector3(square_cell.transform.position.x, square_cell.transform.position.y, square_cell.transform.position.z - 1);
             }
