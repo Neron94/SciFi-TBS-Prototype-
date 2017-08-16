@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class square_cell_Generator : MonoBehaviour {
      
-    GameObject square_cell;                  // Сам обьект Единица Сетки
-    GameObject FieldObject;                  // Обьект на котором будет спавнится сетка
-    Vector3 WhereSpawningStarts;           // Точка начала спавна сетки
-    public int[] SquareGridSize = new int[2];
+    GameObject square_cell;                      // Сам обьект Единица Сетки
+    GameObject FieldObject;                     // Обьект на котором будет спавнится сетка
+    Vector3 WhereSpawningStarts;               // Точка начала спавна сетки
+    public int[] SquareGridSize = new int[2]; // Размер сетки
+
     Field_Controller _Field_Controller;
     
 
@@ -18,11 +19,12 @@ public class square_cell_Generator : MonoBehaviour {
         FieldObject = GameObject.Find("Field");
         square_cell = GameObject.Find("square_cell");
         WhereSpawningStarts = square_cell.transform.position;
-        GenerateSquareField(SquareGridSize[0],SquareGridSize[1]);
+        GenerateSquareField(SquareGridSize[0],SquareGridSize[1]); //Генерация поля
         
     }
 
-    bool SearchPositionToSpawn() // Проверка Есть ли Начальная позиция для спавна сетки
+    // Проверка Есть ли Начальная позиция для спавна сетки
+    bool SearchPositionToSpawn() 
     {
         if(WhereSpawningStarts != null) // Если позиции нет
         {
@@ -35,6 +37,7 @@ public class square_cell_Generator : MonoBehaviour {
         }
 
     }
+    //Генерация поля
     void GenerateSquareField(int x, int y)
     {
         if (SearchPositionToSpawn()) //Если имеем обьект для начала спавна то Начинаем

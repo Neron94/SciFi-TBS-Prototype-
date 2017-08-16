@@ -96,7 +96,9 @@ public class Coordinate_System_Operator : MonoBehaviour {
                 {
                     squares.SetColor(colPath);
                 }
-
+                Open_List.Clear();
+                Close_List.Clear();
+                Path.Clear();
             }
             else Find_path(Start, End); // ПОВТОР ЦИКЛА
         }
@@ -170,6 +172,8 @@ public class Coordinate_System_Operator : MonoBehaviour {
             if(!step.Parent)
             {
                 print("Путь готов");
+                
+                
                 break;
             }
         }

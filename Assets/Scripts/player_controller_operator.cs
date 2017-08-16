@@ -8,8 +8,6 @@ public class player_controller_operator : MonoBehaviour {
     Coordinate_System_Operator CSO;
     Color colBarri = new Color(255,0,0,255);
 
-    
-
     private void Start()
     {
         CSO = GameObject.Find("Coordinate_System_Manager").GetComponent<Coordinate_System_Operator>();

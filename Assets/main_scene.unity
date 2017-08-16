@@ -332,7 +332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae79976ce52e2974598800313534797c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SquareGridSize: 1400000014000000
+  SquareGridSize: 0900000009000000
 --- !u!1 &849349891
 GameObject:
   m_ObjectHideFlags: 0
