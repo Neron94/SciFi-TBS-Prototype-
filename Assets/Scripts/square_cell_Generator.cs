@@ -12,7 +12,7 @@ public class square_cell_Generator : MonoBehaviour {
     
 
 
-    private void Start()
+    private void Awake()
     {
         _Field_Controller = GetComponentInParent<Field_Controller>();
         FieldObject = GameObject.Find("Field");

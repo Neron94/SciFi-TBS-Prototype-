@@ -6,6 +6,9 @@ public class player_controller_operator : MonoBehaviour {
 
     Square_cell_Operator chosenSquare;
     Coordinate_System_Operator CSO;
+    Color colBarri = new Color(255,0,0,255);
+
+    
 
     private void Start()
     {
@@ -16,7 +19,34 @@ public class player_controller_operator : MonoBehaviour {
 
     private void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            Physics.Raycast(mouseRay, out hit, Mathf.Infinity);
+            GameObject selected_gameob = hit.collider.gameObject;
+
+            if (selected_gameob.tag == "square")
+            {
+
+                if (chosenSquare)
+                {
+
+
+                    CSO.Find_path(chosenSquare.GetComponent<Square_cell_Operator>(), selected_gameob.GetComponent<Square_cell_Operator>());
+
+
+                    chosenSquare = null;
+                }
+                else
+                {
+                    print("Клик по Кубу");
+                    chosenSquare = selected_gameob.GetComponent<Square_cell_Operator>();
+                }
+
+            }
+        }
+        if (Input.GetMouseButtonDown(1))
         {
             Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -25,18 +55,8 @@ public class player_controller_operator : MonoBehaviour {
 
             if(selected_gameob.tag == "square")
             {
-
-                if (chosenSquare)
-                {
-                    CSO.Find_path(chosenSquare.GetComponent<Square_cell_Operator>(), selected_gameob.GetComponent<Square_cell_Operator>());
-                    chosenSquare = null;
-                    print("Запуск системы поиска");
-                }
-                else
-                {
-                    print("Клик по Кубу");
-                    chosenSquare = selected_gameob.GetComponent<Square_cell_Operator>();
-                }
+                selected_gameob.GetComponent<Square_cell_Operator>().SetColor(colBarri);
+                selected_gameob.GetComponent<Square_cell_Operator>().barrier = true;
             }
         }
     }
