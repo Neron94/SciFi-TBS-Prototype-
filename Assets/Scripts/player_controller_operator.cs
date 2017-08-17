@@ -7,6 +7,7 @@ public class player_controller_operator : MonoBehaviour {
     Square_cell_Operator chosenSquare;
     Coordinate_System_Operator CSO;
     Color colBarri = new Color(255,0,0,255);
+    GameObject selUnit;
 
     private void Start()
     {
@@ -21,34 +22,40 @@ public class player_controller_operator : MonoBehaviour {
         {
             Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            Physics.Raycast(mouseRay, out hit, Mathf.Infinity);
+            Physics.Raycast(mouseRay, out hit, 2000);
             GameObject selected_gameob = hit.collider.gameObject;
+            
 
             if (selected_gameob.tag == "square")
             {
 
-                if (chosenSquare)
+                if (selUnit)
                 {
-
-
-                    CSO.Find_path(chosenSquare.GetComponent<Square_cell_Operator>(), selected_gameob.GetComponent<Square_cell_Operator>());
-
-
-                    chosenSquare = null;
+                    if (selected_gameob.tag == "square")
+                    {
+                        selUnit.GetComponent<unit_operator>().Move(CSO.Path);
+                        CSO.Find_path(chosenSquare.GetComponent<Square_cell_Operator>(), selected_gameob.GetComponent<Square_cell_Operator>());
+                        
+                    }
                 }
                 else
                 {
-                    print("Клик по Кубу");
-                    chosenSquare = selected_gameob.GetComponent<Square_cell_Operator>();
+                    
                 }
 
+            }
+            if(selected_gameob.tag == "myUnit")
+            {
+                selUnit = null;
+                selected_gameob.GetComponent<unit_operator>().Select();
+                selUnit = selected_gameob;
             }
         }
         if (Input.GetMouseButtonDown(1))
         {
             Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            Physics.Raycast(mouseRay, out hit, Mathf.Infinity);
+            Physics.Raycast(mouseRay, out hit, 2000);
             GameObject selected_gameob = hit.collider.gameObject;
 
             if(selected_gameob.tag == "square")
@@ -56,6 +63,11 @@ public class player_controller_operator : MonoBehaviour {
                 selected_gameob.GetComponent<Square_cell_Operator>().SetColor(colBarri);
                 selected_gameob.GetComponent<Square_cell_Operator>().barrier = true;
             }
+
+            /*if(selected_gameob.tag =="myUnit")        DISELECT ***********
+            {
+                selected_gameob.GetComponent<unit_operator>().Select();
+            }*/
         }
     }
 }

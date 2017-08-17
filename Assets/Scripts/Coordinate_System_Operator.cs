@@ -9,14 +9,12 @@ public class Coordinate_System_Operator : MonoBehaviour {
     List<Square_cell_Operator>Close_List = new List<Square_cell_Operator>();
     Square_cell_Operator End;
     Square_cell_Operator Start;
-    List<Square_cell_Operator> Path;
+    public List<Square_cell_Operator> Path;
 
-    Color colPath = new Color(15, 100, 0, 255);// ## Заплатка
-    Color colOS = new Color(255, 255, 255, 255);// ## Заплатка
-    Color colCS = new Color(0, 0, 0, 255);// ## Заплатка
 
     public void Find_path(Square_cell_Operator start, Square_cell_Operator end)
     {
+        
 
         // Инициализация Основных ТОЧЕК
         End = end;
@@ -83,19 +81,6 @@ public class Coordinate_System_Operator : MonoBehaviour {
             if (isEndinOpen_List())
             {
                 Path = Calculate_Path(End); // Цель найдена Пытаюсь проложить путь
-                
-                foreach(Square_cell_Operator square in Open_List)
-                {
-                    square.SetColor(colOS);
-                }
-                foreach (Square_cell_Operator square in Close_List)
-                {
-                    square.SetColor(colCS);
-                }
-                foreach (Square_cell_Operator squares in Path)
-                {
-                    squares.SetColor(colPath);
-                }
                 Open_List.Clear();
                 Close_List.Clear();
                 Path.Clear();
