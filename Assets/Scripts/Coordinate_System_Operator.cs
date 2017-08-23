@@ -12,10 +12,17 @@ public class Coordinate_System_Operator : MonoBehaviour {
     public List<Square_cell_Operator> Path;
 
 
-    public void Find_path(Square_cell_Operator start, Square_cell_Operator end)
+    public List<Square_cell_Operator> GetPath(Square_cell_Operator start, Square_cell_Operator end)
     {
-        
+        Path.Clear();
+        Find_path(start, end);
+        Start = null;
+        End = null;
+        return Path;
+    }
 
+    void Find_path(Square_cell_Operator start, Square_cell_Operator end)
+    {
         // Инициализация Основных ТОЧЕК
         End = end;
         Start = start;
@@ -36,7 +43,7 @@ public class Coordinate_System_Operator : MonoBehaviour {
                 // Основной цикл вычисления окружающих кубов на дальнейшее рассмотрение
                 SquareCheckToOpenList(SearchInOpen_listNextSquare());
             }
-            print("Пути нет * ОС пуст");
+            
         }
         
     } // НАЧАЛО ПОИСКА ПУТИ 
@@ -81,9 +88,11 @@ public class Coordinate_System_Operator : MonoBehaviour {
             if (isEndinOpen_List())
             {
                 Path = Calculate_Path(End); // Цель найдена Пытаюсь проложить путь
+                ClearValues_F(Open_List);
+                ClearValues_F(Close_List);
                 Open_List.Clear();
                 Close_List.Clear();
-                Path.Clear();
+                
             }
             else Find_path(Start, End); // ПОВТОР ЦИКЛА
         }
@@ -217,6 +226,21 @@ public class Coordinate_System_Operator : MonoBehaviour {
         }
         return 10 + parent.A_Value[1];
     } 
+
+
+    void ClearValues_F(List<Square_cell_Operator> squareList)
+    {
+        foreach(Square_cell_Operator square in squareList)
+        {
+            square.A_Value[0] = 0;
+            square.A_Value[1] = 0;
+            square.A_Value[2] = 0;
+            if(square.Parent)
+            {
+                square.Parent = null;
+            }
+        }
+    }
     
     
 }

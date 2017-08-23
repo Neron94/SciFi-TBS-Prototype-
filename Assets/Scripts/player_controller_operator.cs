@@ -33,9 +33,9 @@ public class player_controller_operator : MonoBehaviour {
                 {
                     if (selected_gameob.tag == "square")
                     {
-                        selUnit.GetComponent<unit_operator>().Move(CSO.Path);
-                        CSO.Find_path(chosenSquare.GetComponent<Square_cell_Operator>(), selected_gameob.GetComponent<Square_cell_Operator>());
-                        
+                        selUnit.GetComponent<unit_operator>().Move(CSO.GetPath(selUnit.GetComponent<unit_operator>().myPos, selected_gameob.GetComponent<Square_cell_Operator>()));
+                        selUnit = null;
+                        selected_gameob = null;
                     }
                 }
                 else
@@ -44,7 +44,7 @@ public class player_controller_operator : MonoBehaviour {
                 }
 
             }
-            if(selected_gameob.tag == "myUnit")
+            if(selected_gameob != null && selected_gameob.tag == "myUnit")
             {
                 selUnit = null;
                 selected_gameob.GetComponent<unit_operator>().Select();
