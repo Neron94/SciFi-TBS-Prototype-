@@ -112,3 +112,6 @@ ehthumbs.db
  /obj
  /Temp
 Library/AnnotationManager
+Assets/Models/
+*.unity
+*.meta
