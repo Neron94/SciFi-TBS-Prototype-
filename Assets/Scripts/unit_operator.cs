@@ -43,11 +43,11 @@ public class unit_operator : MonoBehaviour {
 
             if (transform.position != myPath[0].transform.position) // Пока не достигли КОНЦА пути
             {
-
-                var toRotation = Quaternion.LookRotation(myPath[stepIndex].transform.position - transform.position, Vector3.up);
+                
+                Quaternion toRotation = Quaternion.LookRotation(myPath[stepIndex].transform.position - transform.position, Vector3.up);
                 transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, Time.deltaTime * rotSpeed);
 
-                transform.position = Vector3.MoveTowards(transform.position, myPath[stepIndex].transform.position, speed * Time.deltaTime);
+               transform.position = Vector3.MoveTowards(transform.position, myPath[stepIndex].transform.position, speed * Time.deltaTime);
 
                 if (transform.position == myPath[stepIndex].transform.position)
                 {
