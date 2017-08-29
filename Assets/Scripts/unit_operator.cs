@@ -17,8 +17,6 @@ public class unit_operator : MonoBehaviour{
     bool isMoving = false;
     int stepIndex = 0;
     List<Square_cell_Operator> NearBarrikades = new List<Square_cell_Operator>();
-
-
     Animator myAnimator;
 
 
@@ -153,4 +151,5 @@ public class unit_operator : MonoBehaviour{
         transform.rotation = toRotation;
         myAnimator.SetInteger("State", 2); // АНИМАЦИЯ УКРЫТИЯ
     } //Залечь за 
+
 }

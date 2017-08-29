@@ -62,8 +62,9 @@ public class player_controller_operator : MonoBehaviour {
             {
                 if(selected_gameob.tag == "enemy")
                 {
-                    print("Click po Vragu");
-                    //TODO: #Cheking distance >>> #Type of Weapon
+                    print(Vector3.Distance(selUnit.transform.position, selected_gameob.transform.position));
+                    
+                    //TODO: #Cheking distance >>> #Cheking posibility >>> #Type of Weapon
                     //TODO: #Atack result Calculation before striking
                     //TODO: #Duoble Confirning click to strike >>> #Call function of UnitOperator to deal damage
                 }
