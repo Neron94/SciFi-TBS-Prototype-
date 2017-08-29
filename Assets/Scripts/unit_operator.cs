@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class unit_operator : MonoBehaviour {
+public class unit_operator : MonoBehaviour{
+    //#TODO: #Unit ActionPoint >>> #Show available paths method
+    //#TODO: #Unit HP system >>> #Function to deal Damage
+    //#TODO: #Weapon System (Type, parameters, distance)
+    
 
     List<Square_cell_Operator> myPath = new List<Square_cell_Operator>();
     public GameObject selector;
@@ -105,6 +109,7 @@ public class unit_operator : MonoBehaviour {
 
     bool BarrikadaTest(Square_cell_Operator point)
     {
+        //#TODO: #Ignore diogonal barrikades
         bool have = false;
         foreach(Square_cell_Operator square in point.Around_Squares)
         {

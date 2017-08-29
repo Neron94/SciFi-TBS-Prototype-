@@ -33,22 +33,36 @@ public class player_controller_operator : MonoBehaviour {
                 {
                     if (selected_gameob.tag == "square")
                     {
+                        //## TODO: Verify isAlmostHaveUnitOnSquare
                         selUnit.GetComponent<unit_operator>().Move(CSO.GetPath(selUnit.GetComponent<unit_operator>().myPos, selected_gameob.GetComponent<Square_cell_Operator>()));
                         selUnit = null;
                         selected_gameob = null;
                     }
+                    
                 }
                 else
                 {
-                    
+                
                 }
 
             }
+            //Unit Chosing
             if(selected_gameob != null && selected_gameob.tag == "myUnit")
             {
                 selUnit = null;
                 selected_gameob.GetComponent<unit_operator>().Select();
                 selUnit = selected_gameob;
+            }
+            if (selUnit != null)
+            {
+                if(selected_gameob.tag == "enemy")
+                {
+                    print("Click po Vragu");
+                    //#TODO: #Cheking distance >>> #Type of Weapon
+                    //#TODO: #Atack result Calculation before striking
+                    //#TODO: #Duoble Confirning click to strike >>> #Call function of UnitOperator to deal damage
+                }
+                
             }
         }
         if (Input.GetMouseButtonDown(1))
@@ -64,10 +78,7 @@ public class player_controller_operator : MonoBehaviour {
                 selected_gameob.GetComponent<Square_cell_Operator>().barrier = true;
             }
 
-            /*if(selected_gameob.tag =="myUnit")        DISELECT ***********
-            {
-                selected_gameob.GetComponent<unit_operator>().Select();
-            }*/
+            
         }
     }
 }

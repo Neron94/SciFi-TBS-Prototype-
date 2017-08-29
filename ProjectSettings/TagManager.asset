@@ -6,6 +6,7 @@ TagManager:
   tags:
   - square
   - myUnit
+  - enemy
   layers:
   - Default
   - TransparentFX
