@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class unit_operator : MonoBehaviour{
-    //#TODO: #Unit ActionPoint >>> #Show available paths method
-    //#TODO: #Unit HP system >>> #Function to deal Damage
-    //#TODO: #Weapon System (Type, parameters, distance)
+    //TODO #Unit ActionPoint >>> #Show available paths method
+    //TODO: #Unit HP system >>> #Function to deal Damage
+    //TODO: #Weapon System (Type, parameters, distance)
     
 
     List<Square_cell_Operator> myPath = new List<Square_cell_Operator>();
@@ -109,20 +109,40 @@ public class unit_operator : MonoBehaviour{
 
     bool BarrikadaTest(Square_cell_Operator point)
     {
-        //#TODO: #Ignore diogonal barrikades
+        //TODO: #Ignore diogonal barrikades
         bool have = false;
         foreach(Square_cell_Operator square in point.Around_Squares)
         {
+            int currentID = myPos.GetCoordinates()[0] + myPos.GetCoordinates()[1];
+            int checkID = square.GetCoordinates()[0] + square.GetCoordinates()[1];
             if(square.barrier)
             {
-                NearBarrikades.Add(square);
-                have = true;
+                //Проверка баррикада по диогонали?
+                if(Mathf.Abs(currentID - checkID) == 2 || Mathf.Abs(currentID - checkID) == 0)
+                {
+                    //Сюда попадают если находимся по диогонали
+                }
+                else
+                {
+                    NearBarrikades.Add(square);
+                    have = true;
+                }
+                
             }
         }
         return have;
     } // Проверка нет ли рядом баррикад
 
-    void TakeCover()
+
+         /*int checkSum = check.GetCoordinates()[0] + check.GetCoordinates()[1];
+         int parentSum = parent.GetCoordinates()[0] + parent.GetCoordinates()[1];
+        
+        if(Mathf.Abs(checkSum - parentSum) == 2 || Mathf.Abs(checkSum - parentSum) == 0)
+        {
+            return 14 + parent.A_Value[1];
+        }*/
+
+void TakeCover()
     {
         Quaternion toRotation;
         toRotation = Quaternion.LookRotation(NearBarrikades[0].transform.position - transform.position, Vector3.up);

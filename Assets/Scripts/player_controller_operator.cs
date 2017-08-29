@@ -33,7 +33,7 @@ public class player_controller_operator : MonoBehaviour {
                 {
                     if (selected_gameob.tag == "square")
                     {
-                        //## TODO: Verify isAlmostHaveUnitOnSquare
+                        //TODO: Verify isAlmostHaveUnitOnSquare
                         selUnit.GetComponent<unit_operator>().Move(CSO.GetPath(selUnit.GetComponent<unit_operator>().myPos, selected_gameob.GetComponent<Square_cell_Operator>()));
                         selUnit = null;
                         selected_gameob = null;
@@ -58,9 +58,9 @@ public class player_controller_operator : MonoBehaviour {
                 if(selected_gameob.tag == "enemy")
                 {
                     print("Click po Vragu");
-                    //#TODO: #Cheking distance >>> #Type of Weapon
-                    //#TODO: #Atack result Calculation before striking
-                    //#TODO: #Duoble Confirning click to strike >>> #Call function of UnitOperator to deal damage
+                    //TODO: #Cheking distance >>> #Type of Weapon
+                    //TODO: #Atack result Calculation before striking
+                    //TODO: #Duoble Confirning click to strike >>> #Call function of UnitOperator to deal damage
                 }
                 
             }

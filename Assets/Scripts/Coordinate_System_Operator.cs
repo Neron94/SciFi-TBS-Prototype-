@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Coordinate_System_Operator : MonoBehaviour {
 
+    //TODO: Ignore diogonal moves near hazards
 
     List<Square_cell_Operator>Open_List = new List<Square_cell_Operator>();
     List<Square_cell_Operator>Close_List = new List<Square_cell_Operator>();
