@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Coordinate_System_Operator : MonoBehaviour {
 
-    //TODO: Ignore diogonal moves near hazards
+    //TODO: Ignore diogonal moves near hazards (Not in priority)
 
     List<Square_cell_Operator>Open_List = new List<Square_cell_Operator>();
     List<Square_cell_Operator>Close_List = new List<Square_cell_Operator>();
@@ -57,7 +57,7 @@ public class Coordinate_System_Operator : MonoBehaviour {
         foreach (Square_cell_Operator checkingSquare in CheckSquare.Around_Squares)
         {
             // Проверка нет ли барьера 
-            if (!checkingSquare.barrier) 
+            if (!checkingSquare.barrier && !checkingSquare.haveUnitOn) 
             {
                 // Проверка нет ли в ЗС
                 if (!isCheckInClose_List(checkingSquare)) 
@@ -78,7 +78,7 @@ public class Coordinate_System_Operator : MonoBehaviour {
                 else;
 
 
-            }// Куб имеет не проходимый барьер игнорим
+            }// Куб имеет не проходимый барьер или на нем уже есть юнит игнорим
             else;   
             
         }

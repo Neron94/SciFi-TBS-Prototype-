@@ -10,11 +10,10 @@ public class Square_cell_Operator : MonoBehaviour {
     int[] square_id = new int[2] {1212,1212}; 
     Transform square_Pos;
     public bool barrier;              // Барьер на клетке
+    public bool haveUnitOn;           // Almost have unit on this cube
     public int[] A_Value = new int [3];   //Значение F G H
     public Square_cell_Operator Parent;   //Родитель Клетки
-    public List<Square_cell_Operator> Around_Squares = new List<Square_cell_Operator>(); // Список окружающих клеток
-
-    
+    public List<Square_cell_Operator> Around_Squares = new List<Square_cell_Operator>(); // Список окружающих клеток 
 
 
     private void Awake()
@@ -26,6 +25,7 @@ public class Square_cell_Operator : MonoBehaviour {
     {        
         Set_Around_squares();
     }
+
     //Присвоить кординату
     public void SetCoordinate(int x, int y)
     {

@@ -33,11 +33,16 @@ public class player_controller_operator : MonoBehaviour {
                 {
                     if (selected_gameob.tag == "square")
                     {
-                        //TODO: Verify isAlmostHaveUnitOnSquare
-                        selUnit.GetComponent<unit_operator>().Move(CSO.GetPath(selUnit.GetComponent<unit_operator>().myPos, selected_gameob.GetComponent<Square_cell_Operator>()));
-                        selUnit = null;
-                        selected_gameob = null;
+                        //If almost no unit in this CUBE
+                        if(!selected_gameob.GetComponent<Square_cell_Operator>().haveUnitOn)
+                        {
+                            selUnit.GetComponent<unit_operator>().Move(CSO.GetPath(selUnit.GetComponent<unit_operator>().myPos, selected_gameob.GetComponent<Square_cell_Operator>()));
+                            selUnit = null;
+                            selected_gameob = null;
+                        }
+                        
                     }
+
                     
                 }
                 else

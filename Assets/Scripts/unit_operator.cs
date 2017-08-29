@@ -20,14 +20,27 @@ public class unit_operator : MonoBehaviour{
 
 
     Animator myAnimator;
-    
-    private void OnTriggerEnter(Collider collider)
+
+
+
+    private void OnTriggerExit(Collider other)
     {
-        if(collider.gameObject.tag == "square")
+        if (other.gameObject.tag == "square")
         {
-            myPos = collider.gameObject.GetComponent<Square_cell_Operator>();
+            other.GetComponent<Square_cell_Operator>().haveUnitOn = false;
         }
     }
+    private void OnTriggerStay(Collider collider)
+    {
+
+        if(collider.gameObject.tag == "square")
+        {
+                myPos = collider.gameObject.GetComponent<Square_cell_Operator>();
+                myPos.haveUnitOn = true;  
+        }
+    }
+
+
 
     private void Start()
     {
@@ -109,7 +122,6 @@ public class unit_operator : MonoBehaviour{
 
     bool BarrikadaTest(Square_cell_Operator point)
     {
-        //TODO: #Ignore diogonal barrikades
         bool have = false;
         foreach(Square_cell_Operator square in point.Around_Squares)
         {
@@ -134,15 +146,7 @@ public class unit_operator : MonoBehaviour{
     } // Проверка нет ли рядом баррикад
 
 
-         /*int checkSum = check.GetCoordinates()[0] + check.GetCoordinates()[1];
-         int parentSum = parent.GetCoordinates()[0] + parent.GetCoordinates()[1];
-        
-        if(Mathf.Abs(checkSum - parentSum) == 2 || Mathf.Abs(checkSum - parentSum) == 0)
-        {
-            return 14 + parent.A_Value[1];
-        }*/
-
-void TakeCover()
+    void TakeCover()
     {
         Quaternion toRotation;
         toRotation = Quaternion.LookRotation(NearBarrikades[0].transform.position - transform.position, Vector3.up);
