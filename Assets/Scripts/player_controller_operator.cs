@@ -8,10 +8,12 @@ public class player_controller_operator : MonoBehaviour {
     Coordinate_System_Operator CSO;
     Color colBarri = new Color(255,0,0,255);
     GameObject selUnit;
+    UI_Controller UI;
 
     private void Start()
     {
         CSO = GameObject.Find("Coordinate_System_Manager").GetComponent<Coordinate_System_Operator>();
+        UI = GameObject.Find("UI_Controller").GetComponent<UI_Controller>();
     }
 
 
@@ -39,6 +41,7 @@ public class player_controller_operator : MonoBehaviour {
                             selUnit.GetComponent<unit_operator>().Move(CSO.GetPath(selUnit.GetComponent<unit_operator>().myPos, selected_gameob.GetComponent<Square_cell_Operator>()));
                             selUnit = null;
                             selected_gameob = null;
+                            UI.ShowStatus(false);
                         }
                         
                     }
@@ -57,6 +60,8 @@ public class player_controller_operator : MonoBehaviour {
                 selUnit = null;
                 selected_gameob.GetComponent<unit_operator>().Select();
                 selUnit = selected_gameob;
+                UI.ShowStatus(true,selUnit.GetComponent<unit_operator>());
+
             }
             if (selUnit != null)
             {

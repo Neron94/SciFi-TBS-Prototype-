@@ -19,6 +19,9 @@ public class unit_operator : MonoBehaviour{
     List<Square_cell_Operator> NearBarrikades = new List<Square_cell_Operator>();
     Animator myAnimator;
 
+    public List<weapon_operator> myWeapon = new List<weapon_operator>();
+    int activeWeapon = 1;
+
 
 
     private void OnTriggerExit(Collider other)
@@ -45,10 +48,14 @@ public class unit_operator : MonoBehaviour{
         myAnimator = gameObject.GetComponent<Animator>();
         selector = GameObject.Find("selector");
         selector.SetActive(false);
-        
+
+
+        if (myWeapon.Count > 1) //If we have more then 1 weapon
+        {
+            myWeapon[1].gameObject.SetActive(false); // turn off secondary weapon model
+        }
+
     }
-
-
     private void Update()
     {
         // Передвижение персонажа скрипт
@@ -74,7 +81,7 @@ public class unit_operator : MonoBehaviour{
 
                 }
             }
-            else if (transform.position == myPath[0].transform.position)
+            else if (transform.position == myPath[0].transform.position) // if we in Finish
             {
                 isMoving = false;
                 myPath.Clear();
@@ -94,7 +101,6 @@ public class unit_operator : MonoBehaviour{
         }
         
     }
-
     public void Select()
     {
         if(selector.active)
@@ -106,7 +112,6 @@ public class unit_operator : MonoBehaviour{
             selector.SetActive(true);
         }
     }
-
     public void Move(List<Square_cell_Operator> path)
     {
         myPath = path;
@@ -117,7 +122,6 @@ public class unit_operator : MonoBehaviour{
             myAnimator.SetInteger("State", 1);
         }
     }
-
     bool BarrikadaTest(Square_cell_Operator point)
     {
         bool have = false;
@@ -142,8 +146,6 @@ public class unit_operator : MonoBehaviour{
         }
         return have;
     } // Проверка нет ли рядом баррикад
-
-
     void TakeCover()
     {
         Quaternion toRotation;
@@ -151,5 +153,22 @@ public class unit_operator : MonoBehaviour{
         transform.rotation = toRotation;
         myAnimator.SetInteger("State", 2); // АНИМАЦИЯ УКРЫТИЯ
     } //Залечь за 
+    public void WeaponSwitch(int ID)
+    {
+       switch (ID)
+        {
+            case 1:
+                myWeapon[0].gameObject.SetActive(true);
+                myWeapon[1].gameObject.SetActive(false);
+                activeWeapon = 1;
+                break;
+            case 2:
+                myWeapon[0].gameObject.SetActive(false);
+                myWeapon[1].gameObject.SetActive(true);
+                activeWeapon = 2;
+                break;
+
+        }
+    }
 
 }
