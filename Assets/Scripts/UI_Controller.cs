@@ -6,6 +6,7 @@ public class UI_Controller : MonoBehaviour {
 
     public unitStatusUI_operator unitStatus;
     public bool statusMenuState = false;
+    public bool onUI = false;
 
     private void Awake()
     {
@@ -27,5 +28,8 @@ public class UI_Controller : MonoBehaviour {
         unitStatus.gameObject.SetActive(statusMenuState);
         
     }
-
+    public void MouseOnUI(bool isOnUI)
+    {
+        onUI = isOnUI;
+    }
 }

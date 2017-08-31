@@ -20,12 +20,14 @@ public class player_controller_operator : MonoBehaviour {
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !UI.onUI)
         {
             Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             Physics.Raycast(mouseRay, out hit, 2000);
             GameObject selected_gameob = hit.collider.gameObject;
+            
+            
             
 
             if (selected_gameob.tag == "square")

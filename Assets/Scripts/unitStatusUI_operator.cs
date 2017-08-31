@@ -15,6 +15,7 @@ public class unitStatusUI_operator : MonoBehaviour {
         unitImage = transform.Find("unitImage").GetComponent<Image>();
         weapon1 = transform.Find("weaponButton1").GetComponent<Button>();
         weapon2 = transform.Find("weaponButton2").GetComponent<Button>();
+        weapon1.interactable = false;
     }
 
     public void StatusShow(unit_operator unit)
