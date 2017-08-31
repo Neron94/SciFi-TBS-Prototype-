@@ -14,12 +14,13 @@ public class Square_cell_Operator : MonoBehaviour {
     public int[] A_Value = new int [3];   //Значение F G H
     public Square_cell_Operator Parent;   //Родитель Клетки
     public List<Square_cell_Operator> Around_Squares = new List<Square_cell_Operator>(); // Список окружающих клеток 
-
+    SpriteRenderer spRenderer;
 
     private void Awake()
     {
         FC = GameObject.Find("Field_Controller").GetComponent<Field_Controller>();
         FC.AddSquareToList(this);
+        spRenderer = GetComponentInChildren<SpriteRenderer>();
     }
     private void Start()
     {        
@@ -79,6 +80,10 @@ public class Square_cell_Operator : MonoBehaviour {
     //Меняем цвет клетки
     public void SetColor(Color colorToCube)
     {
-        GetComponentInChildren<SpriteRenderer>().color = colorToCube;
+        spRenderer.color = colorToCube;
+    }
+    public void SetSprite(Sprite sprite)
+    {
+        spRenderer.sprite = sprite;
     }
 }

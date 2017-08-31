@@ -9,11 +9,15 @@ public class player_controller_operator : MonoBehaviour {
     Color colBarri = new Color(255,0,0,255);
     GameObject selUnit;
     UI_Controller UI;
+    ShowAvailableMoves SquareShow;
+    squarePainter SquarePainter;
 
     private void Start()
     {
         CSO = GameObject.Find("Coordinate_System_Manager").GetComponent<Coordinate_System_Operator>();
         UI = GameObject.Find("UI_Controller").GetComponent<UI_Controller>();
+        SquareShow = GameObject.Find("ShowAvailableMoves").GetComponent<ShowAvailableMoves>();
+        SquarePainter = GameObject.Find("Level_Controller").GetComponent<squarePainter>();
     }
 
 
@@ -63,6 +67,10 @@ public class player_controller_operator : MonoBehaviour {
                 selected_gameob.GetComponent<unit_operator>().Select();
                 selUnit = selected_gameob;
                 UI.ShowStatus(true,selUnit.GetComponent<unit_operator>());
+                SquarePainter.PaintSquares(SquareShow.Show("min",selUnit.GetComponent<unit_operator>().stepMinMax[0], selUnit.GetComponent<unit_operator>().stepMinMax[1], selUnit.GetComponent<unit_operator>().myPos),1);
+                SquarePainter.PaintSquares(SquareShow.Show("max", selUnit.GetComponent<unit_operator>().stepMinMax[0], selUnit.GetComponent<unit_operator>().stepMinMax[1], selUnit.GetComponent<unit_operator>().myPos), 3);
+
+
 
             }
             if (selUnit != null)

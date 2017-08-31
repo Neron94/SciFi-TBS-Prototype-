@@ -5,19 +5,25 @@ using UnityEngine;
 public class unit_operator : MonoBehaviour{
     //TODO #Unit ActionPoint >>> #Show available paths method
     //TODO: #Unit HP system >>> #Function to deal Damage
-    //TODO: #Weapon System (Type, parameters, distance)
     
 
     List<Square_cell_Operator> myPath = new List<Square_cell_Operator>();
     public GameObject selector;
     public Square_cell_Operator myPos;
 
+    int action_point = 2;
+    public int[] stepMinMax = new int[] {3,5};
+
+
     public float speed;
     public float rotSpeed;
     bool isMoving = false;
     int stepIndex = 0;
+
     List<Square_cell_Operator> NearBarrikades = new List<Square_cell_Operator>();
+
     Animator myAnimator;
+
 
     public List<weapon_operator> myWeapon = new List<weapon_operator>();
     int activeWeapon = 1;
