@@ -5,8 +5,8 @@ using UnityEngine;
 public class ShowAvailableMoves : MonoBehaviour {
 
     Field_Controller FC;
-    List<Square_cell_Operator> ShowingSquaresMax = new List<Square_cell_Operator>();
-    List<Square_cell_Operator> ShowingSquaresMin = new List<Square_cell_Operator>();
+    public List<Square_cell_Operator> ShowingSquaresMax = new List<Square_cell_Operator>();
+    public List<Square_cell_Operator> ShowingSquaresMin = new List<Square_cell_Operator>();
 
 
     private void Start()
@@ -18,6 +18,8 @@ public class ShowAvailableMoves : MonoBehaviour {
         switch (id)
         {
             case "min":
+                ShowingSquaresMin.Clear();
+                ShowingSquaresMax.Clear();
                 return ShowMin(min,start);
                 
             case "max":
@@ -60,9 +62,9 @@ public class ShowAvailableMoves : MonoBehaviour {
                 }
             }
 
-            foreach (Square_cell_Operator squareFromOL in operationList)
+            foreach (Square_cell_Operator squareFromOL in ShowingSquaresMin)
             {
-                if (!ShowingSquaresMin.Contains(squareFromOL) && !squareFromOL.barrier && !squareFromOL.haveUnitOn) ShowingSquaresMin.Add(squareFromOL);
+                if (!operationList.Contains(squareFromOL) && !squareFromOL.barrier && !squareFromOL.haveUnitOn) operationList.Add(squareFromOL);
             }
         }
 
@@ -100,20 +102,26 @@ public class ShowAvailableMoves : MonoBehaviour {
                 }
             }
 
-            foreach (Square_cell_Operator squareFromOL in operationList)
+            foreach (Square_cell_Operator squareFromOL in ShowingSquaresMax)
             {
-                if (!ShowingSquaresMax.Contains(squareFromOL) && !squareFromOL.barrier && !squareFromOL.haveUnitOn) ShowingSquaresMax.Add(squareFromOL);
+                if (!operationList.Contains(squareFromOL) && !squareFromOL.barrier && !squareFromOL.haveUnitOn) operationList.Add(squareFromOL);
             }
         }
+        List<Square_cell_Operator> finalList = new List<Square_cell_Operator>();
+        finalList.AddRange(ShowingSquaresMax);
+        ShowingSquaresMax.CopyTo(finalList.ToArray());
 
         foreach (Square_cell_Operator squareInMin in MinList)
         {
-            foreach (Square_cell_Operator squareToClean in ShowingSquaresMax)
+            foreach (Square_cell_Operator squareToClean in finalList)
             {
-                if (ShowingSquaresMax.Contains(squareToClean)) ShowingSquaresMax.Remove(squareToClean);
+                if (MinList.Contains(squareToClean)) ShowingSquaresMax.Remove(squareToClean);
             }
         }
+        
 
         return ShowingSquaresMax;
     }
+
+
 }
