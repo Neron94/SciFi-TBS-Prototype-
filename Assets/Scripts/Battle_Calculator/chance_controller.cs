@@ -19,7 +19,8 @@ public class chance_controller : MonoBehaviour {
 
     public int ChanceCalculate(int weaponAc, int CharacterAc, int Distance)
     {
-        int MAS = MidAccurateShot(weaponAc, CharacterAc);
+        //Старая формула вычисления вероятности
+        /*int MAS = MidAccurateShot(weaponAc, CharacterAc);
         print("MAS"+MAS);
         int OneCellChance = 100 / MAS;
         OneCellChance = Mathf.CeilToInt(OneCellChance);
@@ -32,10 +33,30 @@ public class chance_controller : MonoBehaviour {
         BadEffect = BadEffect - ModificatorEffect;
         print(" DO Bad" + BadEffect);
         BadEffect = Mathf.Floor(BadEffect);
-        print("Bad"+BadEffect);
-    
+        print("Bad"+BadEffect);*/
 
-        return 100 - (int)BadEffect;
+        
+
+        int abilityAccuracy = weaponAc + CharacterAc;
+        int distancePercent = 100 / Distance;
+        int dis_accuracy_difference = Distance - abilityAccuracy;
+        int percentOfPenalty = dis_accuracy_difference * distancePercent;
+
+        print(abilityAccuracy);
+
+        if(percentOfPenalty > 100)
+        {
+            return 0;
+        }
+        else if(percentOfPenalty < 0)
+        {
+            return 100;
+        }
+        else
+        {
+            return 100 - percentOfPenalty;
+        }
+        
     }
 	
 }
