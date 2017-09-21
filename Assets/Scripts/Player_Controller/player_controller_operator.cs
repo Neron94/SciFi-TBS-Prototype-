@@ -39,7 +39,7 @@ public class player_controller_operator : MonoBehaviour {
             if (selected_gameob.tag == "square")
             {
 
-                if (selUnit)
+                if (selUnit && selUnit.GetComponent<unit_operator>().action_point > 0)
                 {
                     if (selected_gameob.tag == "square")
                     {
@@ -52,7 +52,14 @@ public class player_controller_operator : MonoBehaviour {
 
                             Battle_controller.visual_contact.ClearContact(); // Зачистка Листа с вражескими юнитами
 
-
+                            if(SquareShow.WhichListIsTargetSquare(SquareShow.ShowingSquaresMin, selected_gameob.GetComponent<Square_cell_Operator>()))
+                            {
+                                selUnit.GetComponent<unit_operator>().action_point--;
+                            }
+                            else if(SquareShow.WhichListIsTargetSquare(SquareShow.ShowingSquaresMax, selected_gameob.GetComponent<Square_cell_Operator>()))
+                            {
+                                selUnit.GetComponent<unit_operator>().action_point = 0;
+                            }
                             selUnit = null;
                             selected_gameob = null;
                             UI.ShowStatus(false);
@@ -65,7 +72,8 @@ public class player_controller_operator : MonoBehaviour {
                 }
                 else
                 {
-                
+                    if(selUnit != null) selUnit.GetComponent<unit_operator>().Select();
+
                 }
 
             }
@@ -76,10 +84,14 @@ public class player_controller_operator : MonoBehaviour {
                 selected_gameob.GetComponent<unit_operator>().Select();
                 selUnit = selected_gameob;
                 UI.ShowStatus(true,selUnit.GetComponent<unit_operator>());
-                SquarePainter.PaintSquares(SquareShow.Show("min",selUnit.GetComponent<unit_operator>().stepMinMax[0], selUnit.GetComponent<unit_operator>().stepMinMax[1], selUnit.GetComponent<unit_operator>().myPos),1);
-                SquarePainter.PaintSquares(SquareShow.Show("max", selUnit.GetComponent<unit_operator>().stepMinMax[0], selUnit.GetComponent<unit_operator>().stepMinMax[1], selUnit.GetComponent<unit_operator>().myPos), 3);
 
-                Battle_controller.visual_contact.EnemyContact(selUnit.GetComponent<unit_operator>());
+                if (selected_gameob.GetComponent<unit_operator>().action_point > 0)
+                {
+                    SquarePainter.PaintSquares(SquareShow.Show("min", selUnit.GetComponent<unit_operator>().stepMinMax[0], selUnit.GetComponent<unit_operator>().stepMinMax[1], selUnit.GetComponent<unit_operator>().myPos), 1);
+                    SquarePainter.PaintSquares(SquareShow.Show("max", selUnit.GetComponent<unit_operator>().stepMinMax[0], selUnit.GetComponent<unit_operator>().stepMinMax[1], selUnit.GetComponent<unit_operator>().myPos), 3);
+                    Battle_controller.visual_contact.EnemyContact(selUnit.GetComponent<unit_operator>());
+
+                }
 
 
             }

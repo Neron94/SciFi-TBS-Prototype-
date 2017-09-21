@@ -16,7 +16,7 @@ public class unit_operator : MonoBehaviour{
     public Square_cell_Operator myPos;
     public Unit_List u_list;
 
-    int action_point = 2;
+    public int action_point = 2;
     public int[] stepMinMax = new int[] {3,5};
 
     
@@ -36,6 +36,12 @@ public class unit_operator : MonoBehaviour{
     public int activeWeapon = 1;
 
     public int accuracy = 2;
+    public int defence = 1;
+    public int attackPower = 2;
+
+
+
+
 
 
 
@@ -55,9 +61,6 @@ public class unit_operator : MonoBehaviour{
                 myPos.haveUnitOn = true;  
         }
     }
-
-
-
     private void Start()
     {
         u_list = GameObject.Find("Battle_Controller").GetComponent<Unit_List>();
@@ -125,10 +128,11 @@ public class unit_operator : MonoBehaviour{
             
         }
 
-        if(hp < 0)
+        if(hp <= 0)
         {
             hp = 0;
             print("Death");
+            myAnimator.SetInteger("State", 3);
         }
         
     }

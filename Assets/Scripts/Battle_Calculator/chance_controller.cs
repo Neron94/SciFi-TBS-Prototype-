@@ -35,8 +35,6 @@ public class chance_controller : MonoBehaviour {
         BadEffect = Mathf.Floor(BadEffect);
         print("Bad"+BadEffect);*/
 
-        
-
         int abilityAccuracy = weaponAc + CharacterAc;
         int distancePercent = 100 / Distance;
         int dis_accuracy_difference = Distance - abilityAccuracy;
@@ -57,6 +55,14 @@ public class chance_controller : MonoBehaviour {
             return 100 - percentOfPenalty;
         }
         
+    }
+    public bool TakeChance(int prob)
+    {
+        if (Random.Range(0, 100) >= prob)
+        {
+            return true;
+        }
+        else return false;
     }
 	
 }

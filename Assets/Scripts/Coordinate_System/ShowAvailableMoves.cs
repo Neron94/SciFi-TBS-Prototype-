@@ -13,6 +13,7 @@ public class ShowAvailableMoves : MonoBehaviour {
     {
         FC = transform.GetComponentInParent<Field_Controller>();
     }
+
     public List<Square_cell_Operator> Show (string id, int min, int max, Square_cell_Operator start)
     {
         switch (id)
@@ -123,5 +124,15 @@ public class ShowAvailableMoves : MonoBehaviour {
         return ShowingSquaresMax;
     }
 
-
+    public bool WhichListIsTargetSquare(List<Square_cell_Operator> list, Square_cell_Operator square)
+    {
+        foreach(Square_cell_Operator test in list)
+        {
+            if(square == test)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }

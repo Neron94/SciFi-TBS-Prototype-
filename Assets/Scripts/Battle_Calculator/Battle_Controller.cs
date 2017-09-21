@@ -24,7 +24,15 @@ public class Battle_Controller : MonoBehaviour {
 
     public void PrepareToStrike(unit_operator atacker, unit_operator defender)
     {
-        print(distance_calculator.Distance(atacker, defender));
-        print(chance_Controller.ChanceCalculate((int)atacker.myWeapon[atacker.activeWeapon -1].Range(), atacker.accuracy, distance_calculator.Distance(atacker, defender)));
+       print(chance_Controller.ChanceCalculate((int)atacker.myWeapon[atacker.activeWeapon -1].Range(), atacker.accuracy, distance_calculator.Distance(atacker, defender)));
+       
+
+        //Пока будем сразу наноситьурон при нажатие
+        Strike(atacker,defender);
+    }
+
+    public void Strike(unit_operator attacker, unit_operator defender)
+    {
+        affect_damage.CalculateDamage(attacker,defender);
     }
 }
