@@ -113,7 +113,11 @@ public class unit_operator : MonoBehaviour{
             {
                 isMoving = false;
                 myPath.Clear();
-                Select();
+                if(selector.active)
+                {
+                    Select();
+                }
+                
                 stepIndex = 0;
                 myAnimator.SetInteger("State", 0);
                 if(BarrikadaTest(myPos))

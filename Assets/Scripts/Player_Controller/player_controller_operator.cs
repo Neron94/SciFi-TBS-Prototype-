@@ -46,7 +46,8 @@ public class player_controller_operator : MonoBehaviour {
                         //If almost no unit in this CUBE
                         if(!selected_gameob.GetComponent<Square_cell_Operator>().haveUnitOn)
                         {
-                            selUnit.GetComponent<unit_operator>().Move(CSO.GetPath(selUnit.GetComponent<unit_operator>().myPos, selected_gameob.GetComponent<Square_cell_Operator>()));
+                            
+
                             SquarePainter.PaintSquares(SquareShow.ShowingSquaresMin, 4);
                             SquarePainter.PaintSquares(SquareShow.ShowingSquaresMax, 4);
 
@@ -55,11 +56,14 @@ public class player_controller_operator : MonoBehaviour {
                             if(SquareShow.WhichListIsTargetSquare(SquareShow.ShowingSquaresMin, selected_gameob.GetComponent<Square_cell_Operator>()))
                             {
                                 selUnit.GetComponent<unit_operator>().action_point--;
+                                selUnit.GetComponent<unit_operator>().Move(CSO.GetPath(selUnit.GetComponent<unit_operator>().myPos, selected_gameob.GetComponent<Square_cell_Operator>()));
                             }
                             else if(SquareShow.WhichListIsTargetSquare(SquareShow.ShowingSquaresMax, selected_gameob.GetComponent<Square_cell_Operator>()))
                             {
                                 selUnit.GetComponent<unit_operator>().action_point = 0;
+                                selUnit.GetComponent<unit_operator>().Move(CSO.GetPath(selUnit.GetComponent<unit_operator>().myPos, selected_gameob.GetComponent<Square_cell_Operator>()));
                             }
+                            selUnit.GetComponent<unit_operator>().Select();
                             selUnit = null;
                             selected_gameob = null;
                             UI.ShowStatus(false);
@@ -88,7 +92,11 @@ public class player_controller_operator : MonoBehaviour {
                 if (selected_gameob.GetComponent<unit_operator>().action_point > 0)
                 {
                     SquarePainter.PaintSquares(SquareShow.Show("min", selUnit.GetComponent<unit_operator>().stepMinMax[0], selUnit.GetComponent<unit_operator>().stepMinMax[1], selUnit.GetComponent<unit_operator>().myPos), 1);
-                    SquarePainter.PaintSquares(SquareShow.Show("max", selUnit.GetComponent<unit_operator>().stepMinMax[0], selUnit.GetComponent<unit_operator>().stepMinMax[1], selUnit.GetComponent<unit_operator>().myPos), 3);
+                    if(selected_gameob.GetComponent<unit_operator>().action_point > 1)
+                    {
+                        SquarePainter.PaintSquares(SquareShow.Show("max", selUnit.GetComponent<unit_operator>().stepMinMax[0], selUnit.GetComponent<unit_operator>().stepMinMax[1], selUnit.GetComponent<unit_operator>().myPos), 3);
+
+                    }
                     Battle_controller.visual_contact.EnemyContact(selUnit.GetComponent<unit_operator>());
 
                 }
@@ -103,9 +111,17 @@ public class player_controller_operator : MonoBehaviour {
 
                     if(Battle_controller.visual_contact.Visual_Contact(selUnit.GetComponent<unit_operator>(), selected_gameob.GetComponent<unit_operator>()))
                     {
-                        //Visual contact
-                        print("Visual contact");
-                        Battle_controller.PrepareToStrike(selUnit.GetComponent<unit_operator>(), selected_gameob.GetComponent<unit_operator>());                
+                        if (selUnit.GetComponent<unit_operator>().action_point >= 1)
+                        {
+                            //Противник в зоне видимости
+                            print("Visual contact");
+                            Battle_controller.PrepareToStrike(selUnit.GetComponent<unit_operator>(), selected_gameob.GetComponent<unit_operator>());
+                            selUnit.GetComponent<unit_operator>().action_point = 0;
+                            SquarePainter.PaintSquares(SquareShow.ShowingSquaresMin, 4);
+                            SquarePainter.PaintSquares(SquareShow.ShowingSquaresMax, 4);
+                            selUnit.GetComponent<unit_operator>().Select();
+                        }
+                        else print("Недостаточно Очков Действия");
                     }
                    
 
