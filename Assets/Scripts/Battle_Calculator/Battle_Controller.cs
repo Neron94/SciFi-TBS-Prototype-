@@ -11,6 +11,11 @@ public class Battle_Controller : MonoBehaviour {
     public chance_controller chance_Controller;
     public Unit_List unit_list;
 
+
+    public unit_operator attacker;
+    public unit_operator defender;
+
+
     private void Start()
     {
         visual_contact = transform.GetComponentInChildren<Visual_contact>();
@@ -20,17 +25,25 @@ public class Battle_Controller : MonoBehaviour {
         unit_list = transform.GetComponentInChildren<Unit_List>();
         chance_Controller = transform.GetComponentInChildren<chance_controller>();
     }
-
-
-    public void PrepareToStrike(unit_operator atacker, unit_operator defender)
+    public int ChanceIs(unit_operator atacker, unit_operator defender)
     {
-       print(chance_Controller.ChanceCalculate((int)atacker.myWeapon[atacker.activeWeapon -1].Range(), atacker.accuracy, distance_calculator.Distance(atacker, defender)));
-       
-
-        //Пока будем сразу наноситьурон при нажатие
-        Strike(atacker,defender);
+        return chance_Controller.ChanceCalculate((int)atacker.myWeapon[atacker.activeWeapon - 1].Range(), atacker.accuracy, distance_calculator.Distance(atacker, defender));
     }
-
+    public void PrepareToStrike()
+    {
+        int chance = chance_Controller.ChanceCalculate((int)attacker.myWeapon[attacker.activeWeapon - 1].Range(), attacker.accuracy, distance_calculator.Distance(attacker, defender));
+        if (chance_Controller.TakeChance(chance))
+        {
+            print("Попал");
+            Strike(attacker, defender);
+        }
+        else
+        {
+            print("Промах");
+        }
+        //Пока будем сразу наноситьурон при нажатие
+        
+    }
     public void Strike(unit_operator attacker, unit_operator defender)
     {
         affect_damage.CalculateDamage(attacker,defender);

@@ -32,12 +32,15 @@ public class player_controller_operator : MonoBehaviour {
             RaycastHit hit;
             Physics.Raycast(mouseRay, out hit, 2000);
             GameObject selected_gameob = hit.collider.gameObject;
+
+
             
             
             
 
             if (selected_gameob.tag == "square")
             {
+                if (UI.attack_status) UI.ShowAtackStatus(false); // Выключение Меню атаки если проиошел клик
 
                 if (selUnit && selUnit.GetComponent<unit_operator>().action_point > 0)
                 {
@@ -63,7 +66,7 @@ public class player_controller_operator : MonoBehaviour {
                                 selUnit.GetComponent<unit_operator>().action_point = 0;
                                 selUnit.GetComponent<unit_operator>().Move(CSO.GetPath(selUnit.GetComponent<unit_operator>().myPos, selected_gameob.GetComponent<Square_cell_Operator>()));
                             }
-                            selUnit.GetComponent<unit_operator>().Select();
+                            selUnit.GetComponent<unit_operator>().Select(false);
                             selUnit = null;
                             selected_gameob = null;
                             UI.ShowStatus(false);
@@ -76,16 +79,17 @@ public class player_controller_operator : MonoBehaviour {
                 }
                 else
                 {
-                    if(selUnit != null) selUnit.GetComponent<unit_operator>().Select();
-
+                    if(selUnit != null) selUnit.GetComponent<unit_operator>().Select(false);
+                    if (UI.attack_status) UI.ShowAtackStatus(false); // Выключение Меню атаки если проиошел клик
                 }
 
             }
             //Unit Chosing
             if(selected_gameob != null && selected_gameob.tag == "myUnit")
             {
+                if (UI.attack_status) UI.ShowAtackStatus(false); // Выключение Меню атаки если проиошел клик
                 selUnit = null;
-                selected_gameob.GetComponent<unit_operator>().Select();
+                selected_gameob.GetComponent<unit_operator>().Select(true);
                 selUnit = selected_gameob;
                 UI.ShowStatus(true,selUnit.GetComponent<unit_operator>());
 
@@ -114,19 +118,21 @@ public class player_controller_operator : MonoBehaviour {
                         if (selUnit.GetComponent<unit_operator>().action_point >= 1)
                         {
                             //Противник в зоне видимости
-                            print("Visual contact");
-                            Battle_controller.PrepareToStrike(selUnit.GetComponent<unit_operator>(), selected_gameob.GetComponent<unit_operator>());
+                            Battle_controller.attacker = selUnit.GetComponent<unit_operator>();
+                            Battle_controller.defender = selected_gameob.GetComponent<unit_operator>();
+                            UI.ShowAtackStatus(true, selected_gameob.name,selected_gameob.GetComponent<unit_operator>().hp,Battle_controller.ChanceIs(selUnit.GetComponent<unit_operator>(), selected_gameob.GetComponent<unit_operator>()));
+                            //Battle_controller.PrepareToStrike(selUnit.GetComponent<unit_operator>(), selected_gameob.GetComponent<unit_operator>());
                             selUnit.GetComponent<unit_operator>().action_point = 0;
                             SquarePainter.PaintSquares(SquareShow.ShowingSquaresMin, 4);
                             SquarePainter.PaintSquares(SquareShow.ShowingSquaresMax, 4);
-                            selUnit.GetComponent<unit_operator>().Select();
+                            
                         }
                         else print("Недостаточно Очков Действия");
                     }
                    
 
 
-                    //TODO: #Cheking distance >>> #Cheking posibility >>> #Type of Weapon
+                    
                     //TODO: #Atack result Calculation before striking
                     //TODO: #Duoble Confirning click to strike >>> #Call function of UnitOperator to deal damage
                 }
@@ -148,6 +154,14 @@ public class player_controller_operator : MonoBehaviour {
             }
 
             
+        }
+    }
+
+    public void DiSelect()
+    {
+        if(selUnit != null)
+        {
+            selUnit.GetComponent<unit_operator>().Select(false);
         }
     }
 }

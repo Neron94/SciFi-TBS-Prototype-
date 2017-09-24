@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class unit_operator : MonoBehaviour{
 
-    //TODO: #Unit HP system >>> #Function to deal Damage
+    
     
 
     List<Square_cell_Operator> myPath = new List<Square_cell_Operator>();
@@ -68,6 +68,10 @@ public class unit_operator : MonoBehaviour{
         {
             u_list.enemyUnitList.Add(this);
         }
+        else
+        {
+            u_list.playerUnitList.Add(this);
+        }
         myAnimator = gameObject.GetComponent<Animator>();
         selector = transform.Find("selector").gameObject;
         target = transform.Find("target").gameObject;
@@ -115,16 +119,17 @@ public class unit_operator : MonoBehaviour{
                 myPath.Clear();
                 if(selector.active)
                 {
-                    Select();
+                    Select(false);
                 }
                 
                 stepIndex = 0;
                 myAnimator.SetInteger("State", 0);
-                if(BarrikadaTest(myPos))
+                if (BarrikadaTest(myPos))
                 {
                     TakeCover();
                     NearBarrikades.Clear();
                 }
+                else defence = 1; // Возвращаем показатель защиты по-умолчанию если нету рядом баррикады
             }
 
                
@@ -140,16 +145,9 @@ public class unit_operator : MonoBehaviour{
         }
         
     }
-    public void Select()
+    public void Select(bool isSelected)
     {
-        if(selector.active)
-        {
-            selector.SetActive(false);
-        }
-        else
-        {
-            selector.SetActive(true);
-        }
+        selector.SetActive(isSelected);
     }
     public void Detected()
     {
@@ -201,6 +199,7 @@ public class unit_operator : MonoBehaviour{
         }
         return have;
     } // Проверка нет ли рядом баррикад
+    
     void TakeCover()
     {
         Quaternion toRotation;
@@ -208,6 +207,7 @@ public class unit_operator : MonoBehaviour{
         transform.rotation = toRotation;
         inCover = NearBarrikades[0].Cover;
         myAnimator.SetInteger("State", 2); // АНИМАЦИЯ УКРЫТИЯ
+        defence++;
     } //Залечь за 
     public void WeaponSwitch(int ID)
     {
@@ -272,6 +272,10 @@ public class unit_operator : MonoBehaviour{
             
             
         
+    }
+    public void RestoreAp()
+    {
+        action_point = 2;
     }
 
 }

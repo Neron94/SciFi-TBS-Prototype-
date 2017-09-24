@@ -58,7 +58,7 @@ public class chance_controller : MonoBehaviour {
     }
     public bool TakeChance(int prob)
     {
-        if (Random.Range(0, 100) >= prob)
+        if (Random.Range(0, 100) <= prob)
         {
             return true;
         }
