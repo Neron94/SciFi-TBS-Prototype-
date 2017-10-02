@@ -6,12 +6,16 @@ public class ai_unit : MonoBehaviour {
 
     public Square_cell_Operator coverPoint;
     public unit_operator nearEnemy;
+    public unit_operator myUnitOperator;
+    public Coordinate_System_Operator CSO;
     ai_squad mySquad;
 
     private void Start()
     {
+        myUnitOperator = transform.GetComponent<unit_operator>();
         mySquad = transform.GetComponent<ai_squad>();
         mySquad.all_unit.Add(this);
+        CSO = GameObject.Find("Coordinate_System_Manager").GetComponent<Coordinate_System_Operator>();
     }
 
     public List<Square_cell_Operator> WhereToCover()
@@ -159,8 +163,30 @@ public class ai_unit : MonoBehaviour {
 
     public void Movement(Square_cell_Operator go)
     {
-        print(go.name);
-       
+       if(myUnitOperator.myPos != go)
+        {
+            List<Square_cell_Operator> path = CSO.GetPath(myUnitOperator.myPos, go);
+            if (myUnitOperator.action_point > 0)
+            {
+                if(path.Count - 1 >= myUnitOperator.stepMinMax[0])
+                {
+                    myUnitOperator.action_point = 0;
+                    myUnitOperator.Move(path);
+                }
+                else if(path.Count-1 <= myUnitOperator.stepMinMax[0])
+                {
+                    myUnitOperator.action_point --;
+                    myUnitOperator.Move(path);
+                }
+                else if(path.Count- 1> myUnitOperator.stepMinMax[1])
+                {
+                    print("путь слишком далек для ОД");
+                }
+                
+
+            }
+        }
+        
     }
 
     void OpenFire()

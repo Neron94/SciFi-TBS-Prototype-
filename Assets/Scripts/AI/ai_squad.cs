@@ -39,14 +39,12 @@ public class ai_squad : MonoBehaviour {
             {
                 if(bestDistance == 0)
                 {
-                    print(enemy.name + Vector3.Distance(uOperator.transform.position, enemy.transform.position));
                     bestDistance = Vector3.Distance(uOperator.transform.position, enemy.transform.position);
                     unit.nearEnemy = enemy;
                 }
 
                 if(Vector3.Distance(uOperator.transform.position, enemy.transform.position) < bestDistance)
                 {
-                    print(enemy.name+ Vector3.Distance(uOperator.transform.position, enemy.transform.position));
                     unit.nearEnemy = enemy;
                     bestDistance = Vector3.Distance(uOperator.transform.position, enemy.transform.position);
                 }
@@ -73,14 +71,12 @@ public class ai_squad : MonoBehaviour {
             {
                 if(bestDistance == 0)
                 {
-                    print(covers.name + Vector3.Distance(uOperator.transform.position, covers.transform.position));
                     unit.coverPoint = covers;
                     bestDistance = Vector3.Distance(uOperator.transform.position, covers.transform.position);
                 }
 
                 if(Vector3.Distance(uOperator.transform.position, covers.transform.position) < bestDistance)
                 {
-                    print(covers.name+ Vector3.Distance(uOperator.transform.position, covers.transform.position));
                     unit.coverPoint = covers;
                     bestDistance = Vector3.Distance(uOperator.transform.position, covers.transform.position);
                 }

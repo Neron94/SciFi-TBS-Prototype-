@@ -133,8 +133,7 @@ public class player_controller_operator : MonoBehaviour {
 
 
                     
-                    //TODO: #Atack result Calculation before striking
-                    //TODO: #Duoble Confirning click to strike >>> #Call function of UnitOperator to deal damage
+                    
                 }
                 
             }
