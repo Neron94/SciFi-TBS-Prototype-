@@ -5,7 +5,10 @@ using UnityEngine;
 public class ai_squad : MonoBehaviour {
 
     public Core_AI core_ai;
-    
+    public List<ai_unit> all_unit = new List<ai_unit>();
+    List<Square_cell_Operator> squares = new List<Square_cell_Operator>(); // Cover Squares
+    List<bool> squadMoveFinished = new List<bool>();
+    public bool isTurnEnd = false;
 
 
     private void Start()
@@ -14,9 +17,6 @@ public class ai_squad : MonoBehaviour {
         core_ai.all_squad.Add(this);
         
     }
-
-    public List<ai_unit> all_unit = new List<ai_unit>();
-    List<Square_cell_Operator> squares = new List<Square_cell_Operator>(); // Cover Squares
 
     public void Order()
     {
@@ -81,8 +81,23 @@ public class ai_squad : MonoBehaviour {
                     bestDistance = Vector3.Distance(uOperator.transform.position, covers.transform.position);
                 }
             }
-            unit.Movement(unit.WhereToCover()[0]);
+            
         }
+    }
+
+
+
+    public void SetOrderToUnit()
+    {
+        foreach (ai_unit unit in all_unit)
+        {
+            if (!unit.isTurnEnd)
+            {
+                unit.Movement(unit.WhereToCover()[0]);
+                break;
+            }
+        }
+        isTurnEnd = true;
     }
 
 

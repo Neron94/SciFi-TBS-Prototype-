@@ -16,10 +16,21 @@ public class Core_AI : MonoBehaviour {
 
     public void Start_AI()
     {
-        foreach(ai_squad squads in all_squad)
+       
+    }
+
+    public void SetOrderToSquad()
+    {
+        foreach(ai_squad squad in all_squad)
         {
-            squads.Order();
+            if(!squad.isTurnEnd)
+            {
+                squad.Order();
+                squad.SetOrderToUnit();
+                break;
+            }
         }
+        print("ИИ закончил Ход");
     }
 
 }

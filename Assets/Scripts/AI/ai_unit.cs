@@ -9,6 +9,8 @@ public class ai_unit : MonoBehaviour {
     public unit_operator myUnitOperator;
     public Coordinate_System_Operator CSO;
     ai_squad mySquad;
+    Battle_Controller battle_controller;
+    public bool isTurnEnd;
 
     private void Start()
     {
@@ -16,6 +18,7 @@ public class ai_unit : MonoBehaviour {
         mySquad = transform.GetComponent<ai_squad>();
         mySquad.all_unit.Add(this);
         CSO = GameObject.Find("Coordinate_System_Manager").GetComponent<Coordinate_System_Operator>();
+        battle_controller = GameObject.Find("Battle_Controller").GetComponent<Battle_Controller>();
     }
 
     public List<Square_cell_Operator> WhereToCover()
@@ -172,15 +175,18 @@ public class ai_unit : MonoBehaviour {
                 {
                     myUnitOperator.action_point = 0;
                     myUnitOperator.Move(path);
+                    
                 }
                 else if(path.Count-1 <= myUnitOperator.stepMinMax[0])
                 {
                     myUnitOperator.action_point --;
                     myUnitOperator.Move(path);
+                    
                 }
                 else if(path.Count- 1> myUnitOperator.stepMinMax[1])
                 {
                     print("путь слишком далек для ОД");
+                    
                 }
                 
 
@@ -191,7 +197,9 @@ public class ai_unit : MonoBehaviour {
 
     void OpenFire()
     {
-
+        battle_controller.attacker = myUnitOperator;
+        battle_controller.defender = nearEnemy;
+        battle_controller.PrepareToStrike();
     }
 
 

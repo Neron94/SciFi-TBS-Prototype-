@@ -24,7 +24,7 @@ public class unit_operator : MonoBehaviour{
     public List<GameObject> hp_item = new List<GameObject>();
     public float speed;
     public float rotSpeed;
-    bool isMoving = false;
+    public bool isMoving = false;
     int stepIndex = 0;
 
     List<Square_cell_Operator> NearBarrikades = new List<Square_cell_Operator>();
