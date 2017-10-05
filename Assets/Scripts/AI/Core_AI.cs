@@ -16,21 +16,71 @@ public class Core_AI : MonoBehaviour {
 
     public void Start_AI()
     {
-       
+        RestoreTurns();
+       SetOrderToSquad();
     }
 
     public void SetOrderToSquad()
     {
-        foreach(ai_squad squad in all_squad)
+        if(squadActiveTest())
         {
-            if(!squad.isTurnEnd)
+            foreach (ai_squad squad in all_squad)
             {
-                squad.Order();
-                squad.SetOrderToUnit();
-                break;
+                if (!squad.isTurnEnd)
+                {
+                    squad.Order();
+                    squad.SetOrderToUnit();
+                    break;
+                }
             }
         }
-        print("ИИ закончил Ход");
+        else
+        {
+            print("ИИ закончил Ход");
+        }
+        
+        
+    }
+
+    bool squadActiveTest()
+    {
+        foreach(ai_squad squad in all_squad)
+        {
+            if(squad.isTurnEnd == false)
+            {
+                return true;
+               
+            }
+        }
+        return false;
+    }
+
+    void RestoreTurns()
+    {
+        foreach(ai_squad squads in all_squad)
+        {
+            squads.isTurnEnd = false;
+
+            foreach(ai_unit unit in squads.all_unit)
+            {
+                unit.isTurnEnd = false;
+            }
+        }
+    }
+
+    public bool HaveUnitInCover(Square_cell_Operator square)
+    {
+        foreach (ai_squad squads in all_squad)
+        {
+            foreach (ai_unit unit in squads.all_unit)
+            {
+                if (unit.coverPoint == square)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 }

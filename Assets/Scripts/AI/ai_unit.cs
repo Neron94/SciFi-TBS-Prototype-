@@ -10,7 +10,8 @@ public class ai_unit : MonoBehaviour {
     public Coordinate_System_Operator CSO;
     ai_squad mySquad;
     Battle_Controller battle_controller;
-    public bool isTurnEnd;
+    public bool isTurnEnd = false;
+    public bool isMoving = false;
 
     private void Start()
     {
@@ -157,6 +158,7 @@ public class ai_unit : MonoBehaviour {
             }
             
         }
+
         print(posToCover[0].GetCoordinates()[0]);
         print(posToCover[0].GetCoordinates()[1]);
         return posToCover;
@@ -166,41 +168,70 @@ public class ai_unit : MonoBehaviour {
 
     public void Movement(Square_cell_Operator go)
     {
-       if(myUnitOperator.myPos != go)
+        if (!go.haveUnitOn)
         {
-            List<Square_cell_Operator> path = CSO.GetPath(myUnitOperator.myPos, go);
-            if (myUnitOperator.action_point > 0)
+            if (myUnitOperator.myPos != go)
             {
-                if(path.Count - 1 >= myUnitOperator.stepMinMax[0])
+                List<Square_cell_Operator> path = CSO.GetPath(myUnitOperator.myPos, go);
+                if (myUnitOperator.action_point > 0)
                 {
-                    myUnitOperator.action_point = 0;
-                    myUnitOperator.Move(path);
-                    
-                }
-                else if(path.Count-1 <= myUnitOperator.stepMinMax[0])
-                {
-                    myUnitOperator.action_point --;
-                    myUnitOperator.Move(path);
-                    
-                }
-                else if(path.Count- 1> myUnitOperator.stepMinMax[1])
-                {
-                    print("путь слишком далек для ОД");
-                    
-                }
-                
+                    if (path.Count - 1 >= myUnitOperator.stepMinMax[0])
+                    {
+                        myUnitOperator.action_point = 0;
+                        myUnitOperator.Move(path);
+                        isMoving = true;
 
+                    }
+                    else if (path.Count - 1 <= myUnitOperator.stepMinMax[0])
+                    {
+                        myUnitOperator.action_point--;
+                        myUnitOperator.Move(path);
+                        isMoving = true;
+
+                    }
+                    else if (path.Count - 1 > myUnitOperator.stepMinMax[1])
+                    {
+                        print("путь слишком далек для ОД");
+                        EndMove();
+                    }
+
+
+                }
             }
+            else if (myUnitOperator.myPos == go)
+            {
+                OpenFire();
+            }
+        }
+        else if(go.haveUnitOn)
+        {
+            print("предполож. укрытие занято");
+            OpenFire();
+           
         }
         
     }
 
-    void OpenFire()
+    public void OpenFire()
     {
-        battle_controller.attacker = myUnitOperator;
-        battle_controller.defender = nearEnemy;
-        battle_controller.PrepareToStrike();
+        if(myUnitOperator.action_point >= 1)
+        {
+            print("Выстрел по игроку");
+            battle_controller.attacker = myUnitOperator;
+            battle_controller.defender = nearEnemy;
+            battle_controller.PrepareToStrike();
+            
+        }
+        EndMove();
+
     }
 
+    public void EndMove()
+    {
+        isMoving = false;
+        isTurnEnd = true;
+        mySquad.SetOrderToUnit();
+    }
 
+    
 }

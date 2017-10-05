@@ -69,35 +69,66 @@ public class ai_squad : MonoBehaviour {
             
             foreach(Square_cell_Operator covers in squares)
             {
-                if(bestDistance == 0)
-                {
-                    unit.coverPoint = covers;
-                    bestDistance = Vector3.Distance(uOperator.transform.position, covers.transform.position);
-                }
+                
+                    if (bestDistance == 0)
+                    {
+                        unit.coverPoint = covers;
+                        bestDistance = Vector3.Distance(uOperator.transform.position, covers.transform.position);
+                    }
 
-                if(Vector3.Distance(uOperator.transform.position, covers.transform.position) < bestDistance)
-                {
+               
+                    if (Vector3.Distance(uOperator.transform.position, covers.transform.position) < bestDistance && !core_ai.HaveUnitInCover(covers))
+                    {
+                        unit.coverPoint = covers;
+                        bestDistance = Vector3.Distance(uOperator.transform.position, covers.transform.position);
+                    }
+                    else if(Vector3.Distance(uOperator.transform.position, covers.transform.position) >= bestDistance && !core_ai.HaveUnitInCover(covers))
+                    {
                     unit.coverPoint = covers;
                     bestDistance = Vector3.Distance(uOperator.transform.position, covers.transform.position);
-                }
+                    }
+
             }
             
         }
     }
 
+    
 
 
     public void SetOrderToUnit()
     {
-        foreach (ai_unit unit in all_unit)
+        if (unitActiveTest())
         {
-            if (!unit.isTurnEnd)
+            foreach (ai_unit unit in all_unit)
             {
-                unit.Movement(unit.WhereToCover()[0]);
-                break;
+                if (!unit.isTurnEnd)
+                {
+                   
+                        unit.Movement(unit.WhereToCover()[0]);
+                        break;
+                    
+                }
             }
         }
-        isTurnEnd = true;
+        else
+        {
+            isTurnEnd = true;
+            core_ai.SetOrderToSquad();
+        }
+        
+    }
+
+    bool unitActiveTest()
+    {
+        foreach(ai_unit unit in all_unit)
+        {
+            if(unit.isTurnEnd == false)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
 

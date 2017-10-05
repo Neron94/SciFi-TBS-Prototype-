@@ -115,6 +115,11 @@ public class unit_operator : MonoBehaviour{
             }
             else if (transform.position == myPath[0].transform.position) // if we in Finish
             {
+                if(gameObject.tag =="enemy")
+                {
+                    transform.GetComponent<ai_unit>().OpenFire();
+                    
+                }
                 isMoving = false;
                 myPath.Clear();
                 if(selector.active)
