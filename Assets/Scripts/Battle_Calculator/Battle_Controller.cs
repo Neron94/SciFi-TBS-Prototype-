@@ -31,18 +31,23 @@ public class Battle_Controller : MonoBehaviour {
     }
     public void PrepareToStrike()
     {
-        int chance = chance_Controller.ChanceCalculate((int)attacker.myWeapon[attacker.activeWeapon - 1].Range(), attacker.accuracy, distance_calculator.Distance(attacker, defender));
-        if (chance_Controller.TakeChance(chance))
+        attacker.Attack(defender.gameObject);
+        if(defender.hp != 0)
         {
-            print("Попал");
-            Strike(attacker, defender);
+            int chance = chance_Controller.ChanceCalculate((int)attacker.myWeapon[attacker.activeWeapon - 1].Range(), attacker.accuracy, distance_calculator.Distance(attacker, defender));
+            if (chance_Controller.TakeChance(chance))
+            {
+                print("Попал");
+                Strike(attacker, defender);
+            }
+            else
+            {
+                print("Промах");
+            }
+            //Пока будем сразу наноситьурон при нажатие
         }
-        else
-        {
-            print("Промах");
-        }
-        //Пока будем сразу наноситьурон при нажатие
-        
+
+
     }
     public void Strike(unit_operator attacker, unit_operator defender)
     {

@@ -7,10 +7,12 @@ public class Core_AI : MonoBehaviour {
     public List<ai_squad> all_squad = new List<ai_squad>();
     public Field_Controller FC;
     public Battle_Controller BC;
+    public Game_Controller GC;
     private void Start()
     {
         FC = GameObject.Find("Field_Controller").GetComponent<Field_Controller>();
         BC = GameObject.Find("Battle_Controller").GetComponent<Battle_Controller>();
+        GC = GameObject.Find("Player_Controller").GetComponent<Game_Controller>();
     }
 
 
@@ -37,6 +39,7 @@ public class Core_AI : MonoBehaviour {
         else
         {
             print("ИИ закончил Ход");
+            GC.EndTurn();
         }
         
         

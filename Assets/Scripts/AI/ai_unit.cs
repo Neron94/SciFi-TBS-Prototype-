@@ -200,6 +200,7 @@ public class ai_unit : MonoBehaviour {
             }
             else if (myUnitOperator.myPos == go)
             {
+                //Мы на месте
                 OpenFire();
             }
         }
@@ -214,12 +215,16 @@ public class ai_unit : MonoBehaviour {
 
     public void OpenFire()
     {
-        if(myUnitOperator.action_point >= 1)
+        if(myUnitOperator.action_point >= 1 && nearEnemy != null)
         {
             print("Выстрел по игроку");
             battle_controller.attacker = myUnitOperator;
             battle_controller.defender = nearEnemy;
             battle_controller.PrepareToStrike();
+            if(nearEnemy.hp == 0)
+            {
+                nearEnemy = null;
+            }
             
         }
         EndMove();

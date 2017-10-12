@@ -85,7 +85,7 @@ public class player_controller_operator : MonoBehaviour {
 
             }
             //Unit Chosing
-            if(selected_gameob != null && selected_gameob.tag == "myUnit")
+            if(selected_gameob != null && selected_gameob.tag == "myUnit"&& selected_gameob.GetComponent<unit_operator>().hp != 0)
             {
                 if (UI.attack_status) UI.ShowAtackStatus(false); // Выключение Меню атаки если проиошел клик
                 selUnit = null;
@@ -110,7 +110,7 @@ public class player_controller_operator : MonoBehaviour {
             if (selUnit != null)
             {
                 //Выбор противника
-                if(selected_gameob.tag == "enemy") 
+                if(selected_gameob.tag == "enemy" && selected_gameob.GetComponent<unit_operator>().hp != 0) 
                 {
 
                     if(Battle_controller.visual_contact.Visual_Contact(selUnit.GetComponent<unit_operator>(), selected_gameob.GetComponent<unit_operator>()))
@@ -121,6 +121,7 @@ public class player_controller_operator : MonoBehaviour {
                             Battle_controller.attacker = selUnit.GetComponent<unit_operator>();
                             Battle_controller.defender = selected_gameob.GetComponent<unit_operator>();
                             UI.ShowAtackStatus(true, selected_gameob.name,selected_gameob.GetComponent<unit_operator>().hp,Battle_controller.ChanceIs(selUnit.GetComponent<unit_operator>(), selected_gameob.GetComponent<unit_operator>()));
+                            selUnit.GetComponent<unit_operator>().Rotation(selected_gameob);
                             //Battle_controller.PrepareToStrike(selUnit.GetComponent<unit_operator>(), selected_gameob.GetComponent<unit_operator>());
                             selUnit.GetComponent<unit_operator>().action_point = 0;
                             SquarePainter.PaintSquares(SquareShow.ShowingSquaresMin, 4);

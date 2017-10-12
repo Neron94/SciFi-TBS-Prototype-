@@ -24,6 +24,8 @@ public class unit_operator : MonoBehaviour{
     public List<GameObject> hp_item = new List<GameObject>();
     public float speed;
     public float rotSpeed;
+    public bool Rotate = false;
+    GameObject toRotate;
     public bool isMoving = false;
     int stepIndex = 0;
 
@@ -38,10 +40,6 @@ public class unit_operator : MonoBehaviour{
     public int accuracy = 2;
     public int defence = 1;
     public int attackPower = 2;
-
-
-
-
 
 
 
@@ -141,11 +139,18 @@ public class unit_operator : MonoBehaviour{
             
             
         }
-
-        if(hp <= 0)
+        if(Rotate)
+        {
+            Quaternion toRotation = Quaternion.LookRotation(toRotate.transform.position - transform.position, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, Time.deltaTime * rotSpeed);
+            if(transform.rotation == toRotation)
+            {
+                Rotate = false;
+            }
+        }
+        if (hp <= 0)
         {
             hp = 0;
-            print("Death");
             myAnimator.SetInteger("State", 3);
         }
         
@@ -178,6 +183,20 @@ public class unit_operator : MonoBehaviour{
             stepIndex = myPath.Count - 2;
             myAnimator.SetInteger("State", 1);
         }
+    }
+    public void Attack(GameObject target)
+    {
+        print("atack anim");
+        Rotation(target);
+        myAnimator.SetInteger("State",4);
+        if(inCover == Field_Controller.barrikade.half || inCover == Field_Controller.barrikade.full) myAnimator.SetInteger("State", 2);
+        else myAnimator.SetInteger("State", 0);
+    }
+
+    public void Rotation(GameObject toRot)
+    {
+        Rotate = true;
+        toRotate = toRot;
     }
 
     bool BarrikadaTest(Square_cell_Operator point)
@@ -253,15 +272,15 @@ public class unit_operator : MonoBehaviour{
         }
     }
     //Заплатка*** выисляю по макс ХП 5
-    public void HudHpChange( int actionID)
+    public void HudHpChange(int actionID)
     {
         switch (actionID)
         {
             //HP minus
             case 1:
-                for (int  i = 5 - hp;  i == 0; i --)
-                {
-                    hp_item[i - 1].SetActive(false);
+                for (int i = 5 - hp; i == 0; i--)
+                {/*
+                    hp_item[i - 1].SetActive(false);*/
                 }
                 break;
             //HP plus
@@ -274,10 +293,10 @@ public class unit_operator : MonoBehaviour{
                 print("Пока не реализованн ХИЛЛ");
                 break;
         }
-            
-            
+
+    }   
         
-    }
+    
     public void RestoreAp()
     {
         action_point = 2;

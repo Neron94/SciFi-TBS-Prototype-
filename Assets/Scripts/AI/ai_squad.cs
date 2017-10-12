@@ -37,17 +37,21 @@ public class ai_squad : MonoBehaviour {
             float bestDistance = 0;
             foreach(unit_operator enemy in core_ai.BC.unit_list.playerUnitList)
             {
-                if(bestDistance == 0)
+                if(enemy.hp != 0)
                 {
-                    bestDistance = Vector3.Distance(uOperator.transform.position, enemy.transform.position);
-                    unit.nearEnemy = enemy;
-                }
+                    if (bestDistance == 0)
+                    {
+                        bestDistance = Vector3.Distance(uOperator.transform.position, enemy.transform.position);
+                        unit.nearEnemy = enemy;
+                    }
 
-                if(Vector3.Distance(uOperator.transform.position, enemy.transform.position) < bestDistance)
-                {
-                    unit.nearEnemy = enemy;
-                    bestDistance = Vector3.Distance(uOperator.transform.position, enemy.transform.position);
+                    if (Vector3.Distance(uOperator.transform.position, enemy.transform.position) < bestDistance)
+                    {
+                        unit.nearEnemy = enemy;
+                        bestDistance = Vector3.Distance(uOperator.transform.position, enemy.transform.position);
+                    }
                 }
+                
             }
         }
     }
