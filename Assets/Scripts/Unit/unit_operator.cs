@@ -28,10 +28,12 @@ public class unit_operator : MonoBehaviour{
     GameObject toRotate;
     public bool isMoving = false;
     int stepIndex = 0;
+    public GameObject[] boom = new GameObject[2];
 
     List<Square_cell_Operator> NearBarrikades = new List<Square_cell_Operator>();
 
-    Animator myAnimator;
+    public Animator myAnimator;
+    
 
 
     public List<weapon_operator> myWeapon = new List<weapon_operator>();
@@ -83,8 +85,11 @@ public class unit_operator : MonoBehaviour{
             myWeapon[1].gameObject.SetActive(false); // turn off secondary weapon model
         }
 
-        
+        boom[0] = myWeapon[0].transform.Find("boom").gameObject;
+        boom[1] = myWeapon[1].transform.Find("boom").gameObject;
 
+        boom[0].SetActive(false);
+        boom[1].SetActive(false);
     }
     private void Update()
     {
@@ -141,6 +146,7 @@ public class unit_operator : MonoBehaviour{
         }
         if(Rotate)
         {
+
             Quaternion toRotation = Quaternion.LookRotation(toRotate.transform.position - transform.position, Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, Time.deltaTime * rotSpeed);
             if(transform.rotation == toRotation)
@@ -157,6 +163,7 @@ public class unit_operator : MonoBehaviour{
     }
     public void Select(bool isSelected)
     {
+        
         selector.SetActive(isSelected);
     }
     public void Detected()
@@ -186,11 +193,10 @@ public class unit_operator : MonoBehaviour{
     }
     public void Attack(GameObject target)
     {
-        print("atack anim");
         Rotation(target);
-        myAnimator.SetInteger("State",4);
-        if(inCover == Field_Controller.barrikade.half || inCover == Field_Controller.barrikade.full) myAnimator.SetInteger("State", 2);
-        else myAnimator.SetInteger("State", 0);
+        boom[activeWeapon -1].SetActive(true);
+        
+
     }
 
     public void Rotation(GameObject toRot)
@@ -261,6 +267,8 @@ public class unit_operator : MonoBehaviour{
                 if(hp > 0)
                 {
                     hp = hp - value;
+                    myAnimator.SetInteger("State", 5);
+                    
                 }
                 HudHpChange(1);
 
@@ -300,6 +308,11 @@ public class unit_operator : MonoBehaviour{
     public void RestoreAp()
     {
         action_point = 2;
+        
+        foreach (GameObject bow in boom)
+        {
+            bow.SetActive(false);
+        }
     }
 
 }

@@ -39,6 +39,7 @@ public class Battle_Controller : MonoBehaviour {
             {
                 print("Попал");
                 Strike(attacker, defender);
+                defender.Rotation(attacker.gameObject);
             }
             else
             {

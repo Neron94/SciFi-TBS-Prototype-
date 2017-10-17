@@ -80,17 +80,19 @@ public class ai_squad : MonoBehaviour {
                         bestDistance = Vector3.Distance(uOperator.transform.position, covers.transform.position);
                     }
 
-               
+
                     if (Vector3.Distance(uOperator.transform.position, covers.transform.position) < bestDistance && !core_ai.HaveUnitInCover(covers))
                     {
                         unit.coverPoint = covers;
                         bestDistance = Vector3.Distance(uOperator.transform.position, covers.transform.position);
                     }
-                    else if(Vector3.Distance(uOperator.transform.position, covers.transform.position) >= bestDistance && !core_ai.HaveUnitInCover(covers))
+                    else if (Vector3.Distance(uOperator.transform.position, covers.transform.position) >= bestDistance && !core_ai.HaveUnitInCover(covers))
                     {
-                    unit.coverPoint = covers;
-                    bestDistance = Vector3.Distance(uOperator.transform.position, covers.transform.position);
+                        unit.coverPoint = covers;
+                        bestDistance = Vector3.Distance(uOperator.transform.position, covers.transform.position);
                     }
+                
+                    
 
             }
             

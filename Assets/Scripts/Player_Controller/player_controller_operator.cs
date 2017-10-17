@@ -122,6 +122,8 @@ public class player_controller_operator : MonoBehaviour {
                             Battle_controller.defender = selected_gameob.GetComponent<unit_operator>();
                             UI.ShowAtackStatus(true, selected_gameob.name,selected_gameob.GetComponent<unit_operator>().hp,Battle_controller.ChanceIs(selUnit.GetComponent<unit_operator>(), selected_gameob.GetComponent<unit_operator>()));
                             selUnit.GetComponent<unit_operator>().Rotation(selected_gameob);
+                            selUnit.GetComponent<unit_operator>().myAnimator.SetInteger("State", 2);
+
                             //Battle_controller.PrepareToStrike(selUnit.GetComponent<unit_operator>(), selected_gameob.GetComponent<unit_operator>());
                             selUnit.GetComponent<unit_operator>().action_point = 0;
                             SquarePainter.PaintSquares(SquareShow.ShowingSquaresMin, 4);

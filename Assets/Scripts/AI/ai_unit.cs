@@ -24,11 +24,35 @@ public class ai_unit : MonoBehaviour {
 
     public List<Square_cell_Operator> WhereToCover()
     {
-        int coverX = coverPoint.GetCoordinates()[0];
-        int coverY = coverPoint.GetCoordinates()[1];
+        int coverX = 0;
+        int coverY = 0;
+        if (coverPoint != null)
+        {
+            coverX = coverPoint.GetCoordinates()[0];
+            coverY = coverPoint.GetCoordinates()[1];
+        }
+        else
+        {
+            coverPoint = transform.GetComponent<unit_operator>().myPos.Around_Squares[Random.Range(1,4)];
+            
+            coverX = coverPoint.GetCoordinates()[0];
+            coverY = coverPoint.GetCoordinates()[1];
+        }
+        
 
-        int enemyX = nearEnemy.myPos.GetCoordinates()[0];
-        int enemyY = nearEnemy.myPos.GetCoordinates()[1];
+        int enemyX = 0;
+        int enemyY = 0;
+        if (nearEnemy != null)
+        {
+            enemyX = nearEnemy.myPos.GetCoordinates()[0];
+            enemyY = nearEnemy.myPos.GetCoordinates()[1];
+        }
+        else
+        {
+            enemyX = 0;
+            enemyY = 0;
+        }
+        
 
         
         List<Square_cell_Operator> posToCover = new List<Square_cell_Operator>();
@@ -201,14 +225,31 @@ public class ai_unit : MonoBehaviour {
             else if (myUnitOperator.myPos == go)
             {
                 //Мы на месте
-                OpenFire();
+                if(nearEnemy != null)
+                {
+                    OpenFire();
+                }
+                else
+                {
+                    print("Игрок мертв");
+                    EndMove();
+                }
+                
             }
         }
         else if(go.haveUnitOn)
         {
             print("предполож. укрытие занято");
-            OpenFire();
-           
+            if (nearEnemy != null)
+            {
+                OpenFire();
+            }
+            else
+            {
+                print("Игрок мертв");
+                EndMove();
+            }
+
         }
         
     }
