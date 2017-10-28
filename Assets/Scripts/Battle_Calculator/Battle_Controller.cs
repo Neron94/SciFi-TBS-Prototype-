@@ -31,22 +31,31 @@ public class Battle_Controller : MonoBehaviour {
     }
     public void PrepareToStrike()
     {
-        attacker.Attack(defender.gameObject);
-        if(defender.hp != 0)
+        if(attacker.myWeapon[attacker.activeWeapon-1].ammo > 0)
         {
-            int chance = chance_Controller.ChanceCalculate((int)attacker.myWeapon[attacker.activeWeapon - 1].Range(), attacker.accuracy, distance_calculator.Distance(attacker, defender));
-            if (chance_Controller.TakeChance(chance))
+            attacker.Attack(defender.gameObject);
+            if (defender.hp != 0)
             {
-                print("Попал");
-                Strike(attacker, defender);
-                defender.Rotation(attacker.gameObject);
+                int chance = chance_Controller.ChanceCalculate((int)attacker.myWeapon[attacker.activeWeapon - 1].Range(), attacker.accuracy, distance_calculator.Distance(attacker, defender));
+                if (chance_Controller.TakeChance(chance))
+                {
+                    print("Попал");
+                    Strike(attacker, defender);
+                    defender.Rotation(attacker.gameObject);
+                    attacker.action_point = 0;
+                }
+                else
+                {
+                    print("Промах");
+                }
+                //Пока будем сразу наносить урон при нажатие
             }
-            else
-            {
-                print("Промах");
-            }
-            //Пока будем сразу наноситьурон при нажатие
         }
+        else
+        {
+            print("Кончились патроны");
+        }
+        
 
 
     }

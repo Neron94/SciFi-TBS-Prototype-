@@ -58,14 +58,21 @@ public class player_controller_operator : MonoBehaviour {
 
                             if(SquareShow.WhichListIsTargetSquare(SquareShow.ShowingSquaresMin, selected_gameob.GetComponent<Square_cell_Operator>()))
                             {
-                                selUnit.GetComponent<unit_operator>().action_point--;
-                                selUnit.GetComponent<unit_operator>().Move(CSO.GetPath(selUnit.GetComponent<unit_operator>().myPos, selected_gameob.GetComponent<Square_cell_Operator>()));
+                                if(selUnit != null)
+                                {
+                                    selUnit.GetComponent<unit_operator>().action_point--;
+                                    selUnit.GetComponent<unit_operator>().Move(CSO.GetPath(selUnit.GetComponent<unit_operator>().myPos, selected_gameob.GetComponent<Square_cell_Operator>()));
+
+                                }
                             }
                             else if(SquareShow.WhichListIsTargetSquare(SquareShow.ShowingSquaresMax, selected_gameob.GetComponent<Square_cell_Operator>()))
                             {
-                                selUnit.GetComponent<unit_operator>().action_point = 0;
-                                selUnit.GetComponent<unit_operator>().Move(CSO.GetPath(selUnit.GetComponent<unit_operator>().myPos, selected_gameob.GetComponent<Square_cell_Operator>()));
-                            }
+                                if (selUnit != null)
+                                {
+                                    selUnit.GetComponent<unit_operator>().action_point = 0;
+                                    selUnit.GetComponent<unit_operator>().Move(CSO.GetPath(selUnit.GetComponent<unit_operator>().myPos, selected_gameob.GetComponent<Square_cell_Operator>()));
+                                }
+                                }
                             selUnit.GetComponent<unit_operator>().Select(false);
                             selUnit = null;
                             selected_gameob = null;
@@ -125,7 +132,7 @@ public class player_controller_operator : MonoBehaviour {
                             selUnit.GetComponent<unit_operator>().myAnimator.SetInteger("State", 2);
 
                             //Battle_controller.PrepareToStrike(selUnit.GetComponent<unit_operator>(), selected_gameob.GetComponent<unit_operator>());
-                            selUnit.GetComponent<unit_operator>().action_point = 0;
+                           
                             SquarePainter.PaintSquares(SquareShow.ShowingSquaresMin, 4);
                             SquarePainter.PaintSquares(SquareShow.ShowingSquaresMax, 4);
                             
@@ -164,6 +171,7 @@ public class player_controller_operator : MonoBehaviour {
         if(selUnit != null)
         {
             selUnit.GetComponent<unit_operator>().Select(false);
+            selUnit = null;
         }
     }
 }

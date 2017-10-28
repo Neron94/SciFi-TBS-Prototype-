@@ -1691,7 +1691,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1411909461900610}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.87, y: 0.17, z: 2.11}
+  m_LocalPosition: {x: -18.52, y: 0.779, z: -3.31}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4019527041056112}
@@ -2223,12 +2223,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98cbbbe4aa130c043887b511a710843f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ammoStatusText: {fileID: 0}
+  reloadBut: {fileID: 0}
   title: G5
   classWeapon: 0
   range: 2
   damage: 5
   criticalChance: 10
-  ammo: 5
+  ammo: 2
+  MaxAmmo: 2
   apRequared: 1
 --- !u!114 &114134878765848168
 MonoBehaviour:
@@ -2275,7 +2278,7 @@ MonoBehaviour:
   myPos: {fileID: 0}
   u_list: {fileID: 0}
   action_point: 2
-  stepMinMax: 0300000005000000
+  stepMinMax: 0500000009000000
   hp: 5
   hp_item:
   - {fileID: 1969941065846974}
@@ -2287,6 +2290,9 @@ MonoBehaviour:
   rotSpeed: 6
   Rotate: 0
   isMoving: 0
+  boom:
+  - {fileID: 0}
+  - {fileID: 0}
   myAnimator: {fileID: 0}
   myWeapon: []
   activeWeapon: 1
@@ -2363,12 +2369,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98cbbbe4aa130c043887b511a710843f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ammoStatusText: {fileID: 0}
+  reloadBut: {fileID: 0}
   title: SR5
   classWeapon: 1
   range: 4
   damage: 15
   criticalChance: 25
-  ammo: 30
+  ammo: 3
+  MaxAmmo: 3
   apRequared: 1
 --- !u!114 &114645999176043698
 MonoBehaviour:

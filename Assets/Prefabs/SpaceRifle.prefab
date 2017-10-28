@@ -97,5 +97,6 @@ MonoBehaviour:
   range: 7
   damage: 15
   criticalChance: 25
-  ammo: 30
+  ammo: 3
+  MaxAmmo: 0
   apRequared: 1

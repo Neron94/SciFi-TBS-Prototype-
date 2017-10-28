@@ -63,8 +63,21 @@ public class unit_operator : MonoBehaviour{
     }
     private void Start()
     {
+        weapon_operator forSort = myWeapon[0];
+        myWeapon[0] = myWeapon[1];
+        myWeapon[1] = forSort;
+
+
+        boom[0] = myWeapon[0].transform.Find("boom").gameObject;
+        boom[1] = myWeapon[1].transform.Find("boom").gameObject;
+
         u_list = GameObject.Find("Battle_Controller").GetComponent<Unit_List>();
-        if(gameObject.tag != "myUnit")
+        myAnimator = gameObject.GetComponent<Animator>();
+        selector = transform.Find("selector").gameObject;
+        target = transform.Find("target").gameObject;
+        Eyes_Object = transform.Find("Battle_Eye").gameObject;
+
+        if (gameObject.tag != "myUnit")
         {
             u_list.enemyUnitList.Add(this);
         }
@@ -72,21 +85,13 @@ public class unit_operator : MonoBehaviour{
         {
             u_list.playerUnitList.Add(this);
         }
-        myAnimator = gameObject.GetComponent<Animator>();
-        selector = transform.Find("selector").gameObject;
-        target = transform.Find("target").gameObject;
-        Eyes_Object = transform.Find("Battle_Eye").gameObject;
+        
         selector.SetActive(false);
         target.SetActive(false);
-
-
-        if (myWeapon.Count > 1) //If we have more then 1 weapon
+        if (myWeapon.Count > 1)  //If we have more then 1 weapon
         {
             myWeapon[1].gameObject.SetActive(false); // turn off secondary weapon model
         }
-
-        boom[0] = myWeapon[0].transform.Find("boom").gameObject;
-        boom[1] = myWeapon[1].transform.Find("boom").gameObject;
 
         boom[0].SetActive(false);
         boom[1].SetActive(false);
@@ -158,13 +163,14 @@ public class unit_operator : MonoBehaviour{
         {
             hp = 0;
             myAnimator.SetInteger("State", 3);
+            Select(false);
         }
         
     }
     public void Select(bool isSelected)
     {
-        
         selector.SetActive(isSelected);
+        myWeapon[activeWeapon - 1].AmmoStatus(0);
     }
     public void Detected()
     {
@@ -195,6 +201,7 @@ public class unit_operator : MonoBehaviour{
     {
         Rotation(target);
         boom[activeWeapon -1].SetActive(true);
+        myWeapon[activeWeapon - 1].AmmoStatus(1);
         
 
     }

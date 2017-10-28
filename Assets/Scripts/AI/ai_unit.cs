@@ -13,8 +13,23 @@ public class ai_unit : MonoBehaviour {
     public bool isTurnEnd = false;
     public bool isMoving = false;
 
+    IEnumerator pauseBetwenEndTurn()
+    {
+        
+        yield return new WaitForSeconds(2);
+        EndMove();
+    }
+    IEnumerator firePause()
+    {
+
+        yield return new WaitForSeconds(1);
+        OpenFire();
+    }
+
+
     private void Start()
     {
+        
         myUnitOperator = transform.GetComponent<unit_operator>();
         mySquad = transform.GetComponent<ai_squad>();
         mySquad.all_unit.Add(this);
@@ -216,7 +231,8 @@ public class ai_unit : MonoBehaviour {
                     else if (path.Count - 1 > myUnitOperator.stepMinMax[1])
                     {
                         print("путь слишком далек для ОД");
-                        EndMove();
+                        StartCoroutine(pauseBetwenEndTurn());
+                        
                     }
 
 
@@ -227,12 +243,13 @@ public class ai_unit : MonoBehaviour {
                 //Мы на месте
                 if(nearEnemy != null)
                 {
-                    OpenFire();
+                    StartCoroutine(firePause());
                 }
                 else
                 {
                     print("Игрок мертв");
-                    EndMove();
+                    StartCoroutine(pauseBetwenEndTurn());
+
                 }
                 
             }
@@ -242,12 +259,13 @@ public class ai_unit : MonoBehaviour {
             print("предполож. укрытие занято");
             if (nearEnemy != null)
             {
-                OpenFire();
+
+                StartCoroutine(firePause());
             }
             else
             {
                 print("Игрок мертв");
-                EndMove();
+                StartCoroutine(pauseBetwenEndTurn());
             }
 
         }
@@ -268,12 +286,14 @@ public class ai_unit : MonoBehaviour {
             }
             
         }
-        EndMove();
+
+        StartCoroutine(pauseBetwenEndTurn());
 
     }
 
     public void EndMove()
     {
+        StopAllCoroutines();
         isMoving = false;
         isTurnEnd = true;
         mySquad.SetOrderToUnit();

@@ -9,6 +9,7 @@ public class UI_Controller : MonoBehaviour {
     public bool attack_status = false;
     public bool statusMenuState = false;
     public bool onUI = false;
+    public unit_operator selUnit;
 
     private void Awake()
     {
@@ -20,7 +21,7 @@ public class UI_Controller : MonoBehaviour {
 
     public void ShowStatus(bool show, unit_operator unit)
     {
-        
+        selUnit = unit;
         statusMenuState = show;
         unitStatus.gameObject.SetActive(statusMenuState);
         unitStatus.StatusShow(unit);
@@ -49,4 +50,9 @@ public class UI_Controller : MonoBehaviour {
         attack_status = isShow;
         attack_ui.gameObject.SetActive(attack_status);
      }
+
+    public void Reload()
+    {
+        selUnit.myWeapon[selUnit.activeWeapon - 1].Reload();
+    }
 }
